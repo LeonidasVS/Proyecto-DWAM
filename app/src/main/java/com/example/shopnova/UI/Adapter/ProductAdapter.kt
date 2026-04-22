@@ -1,0 +1,67 @@
+package com.shopnova.UI.Adapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.shopnova.databinding.ItemProductBinding
+import com.example.shopnova.Model.Producto
+
+class ProductAdapter(
+    private val onItemClick: (Producto) -> Unit
+) : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+        val binding = ItemProductBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return ProductViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    inner class ProductViewHolder(
+        private val binding: ItemProductBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(product: Producto) {
+            binding.tvProductName.text = product.nombre
+            binding.tvCategory.text = "📂 ${product.categoria}"
+            binding.tvDescription.text = product.descripcion
+            binding.tvPrice.text = "$${String.format("%.2f", product.precio)}"
+            binding.tvStock.text = "Stock: ${product.existencias}"
+
+            binding.tvIcon.text = when (product.categoria.lowercase()) {
+                "electrónica", "electronica" -> "📱"
+                "ropa", "moda"               -> "👕"
+                "alimentos", "comida"        -> "🍎"
+                "hogar"                      -> "🏠"
+                "deportes"                   -> "⚽"
+                "libros"                     -> "📚"
+                else                         -> "📦"
+            }
+
+            val stockColor = when {
+                product.existencias == 0 -> binding.root.context
+                    .getColor(com.example.shopnova.R.color.error_red)
+                product.existencias < 5  -> binding.root.context
+                    .getColor(com.example.shopnova.R.color.warning_orange)
+                else               -> binding.root.context
+                    .getColor(com.example.shopnova.R.color.accent_green)
+            }
+            binding.chipStock.setCardBackgroundColor(stockColor)
+
+            binding.root.setOnClickListener { onItemClick(product) }
+        }
+    }
+
+    class ProductDiffCallback : DiffUtil.ItemCallback<Producto>() {
+        override fun areItemsTheSame(oldItem: Producto, newItem: Producto) =
+            oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Producto, newItem: Producto) =
+            oldItem == newItem
+    }
+}

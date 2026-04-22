@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">ShopNova</string>
+    <string name="app_tagline">Tu tienda inteligente</string>
+
+    <!-- Auth -->
+    <string name="login">Iniciar Sesión</string>
+    <string name="register">Registrarse</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="full_name">Nombre completo</string>
+    <string name="no_account">¿No tienes cuenta? Regístrate</string>
+    <string name="have_account">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+
+    <!-- Productos -->
+    <string name="products">Productos</string>
+    <string name="add_product">Agregar Producto</string>
+    <string name="edit_product">Editar Producto</string>
+    <string name="delete_product">Eliminar</string>
+    <string name="product_name">Nombre del producto</string>
+    <string name="product_description">Descripción</string>
+    <string name="product_price">Precio ($)</string>
+    <string name="product_stock">Stock disponible</string>
+    <string name="product_category">Categoría</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="update">Actualizar</string>
+    <string name="confirm_delete">¿Eliminar producto?</string>
+    <string name="delete_message">Esta acción no se puede deshacer.</string>
+    <string name="no_products">No hay productos disponibles</string>
+    <string name="search_products">Buscar productos...</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard">Panel Principal</string>
+    <string name="welcome">¡Bienvenido</string>
+    <string name="total_products">Total Productos</string>
+    <string name="manage_products">Gestionar Productos</string>
+    <string name="view_profile">Ver Perfil</string>
+
+    <!-- Validaciones -->
+    <string name="field_required">Este campo es requerido</string>
+    <string name="invalid_email">Correo electrónico inválido</string>
+    <string name="password_short">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="passwords_not_match">Las contraseñas no coinciden</string>
+    <string name="price_invalid">Ingresa un precio válido</string>
+    <string name="stock_invalid">Ingresa un stock válido</string>
+
+    <!-- Mensajes -->
+    <string name="loading">Cargando...</string>
+    <string name="success_login">Sesión iniciada correctamente</string>
+    <string name="success_register">Cuenta creada correctamente</string>
+    <string name="success_product_created">Producto creado exitosamente</string>
+    <string name="success_product_updated">Producto actualizado</string>
+    <string name="success_product_deleted">Producto eliminado</string>
+    <string name="error_generic">Ocurrió un error. Intenta de nuevo</string>
+</resources>

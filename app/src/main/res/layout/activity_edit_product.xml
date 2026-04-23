@@ -43,6 +43,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Nombre -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilName"
                     style="@style/ShopNova.TextInputLayout"
@@ -56,6 +57,7 @@
                         android:inputType="textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Descripción -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilDescription"
                     style="@style/ShopNova.TextInputLayout"
@@ -72,6 +74,7 @@
                         android:gravity="top" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Precio -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilPrice"
                     style="@style/ShopNova.TextInputLayout"
@@ -87,6 +90,7 @@
                         android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Stock -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilStock"
                     style="@style/ShopNova.TextInputLayout"
@@ -101,20 +105,31 @@
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Categoría DROPDOWN -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilCategory"
                     style="@style/ShopNova.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:hint="@string/product_category">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCategory"
+                    android:hint="@string/product_category"
+                    app:endIconMode="dropdown_menu">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/actvCategory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapWords" />
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Botones -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,6 +162,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:visibility="gone" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

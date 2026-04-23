@@ -1,6 +1,7 @@
 package com.example.shopnova.UI
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -17,7 +18,6 @@ import com.example.shopnova.Utils.showToast
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.ProductViewModel
 import com.example.shopnova.databinding.ActivityEditProductBinding
-import kotlin.getValue
 
 class EditProductActivity : AppCompatActivity() {
 
@@ -25,20 +25,34 @@ class EditProductActivity : AppCompatActivity() {
     private val viewModel: ProductViewModel by viewModels()
     private var productId: String = ""
 
+    private val categorias = listOf(
+        "Electrónica",
+        "Ropa y Moda",
+        "Alimentos y Bebidas",
+        "Hogar y Muebles",
+        "Deportes",
+        "Libros y Educación",
+        "Juguetes",
+        "Salud y Belleza",
+        "Automóviles",
+        "Otros"
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        binding= ActivityEditProductBinding.inflate(layoutInflater)
+        binding = ActivityEditProductBinding.inflate(layoutInflater)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
         setupToolbar()
+        setupCategoryDropdown()
         cargarDatosDelIntent()
         setupObservers()
 
@@ -59,6 +73,21 @@ class EditProductActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
+    // Configura el dropdown con la lista de categorías
+    private fun setupCategoryDropdown() {
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            categorias
+        )
+        binding.actvCategory.setAdapter(adapter)
+
+        binding.actvCategory.setOnClickListener {
+            binding.actvCategory.showDropDown()
+        }
+    }
+
+    // Carga los datos del intent y preselecciona la categoría en el dropdown
     private fun cargarDatosDelIntent() {
         intent?.let {
             productId = it.getStringExtra("product_id") ?: ""
@@ -66,18 +95,21 @@ class EditProductActivity : AppCompatActivity() {
             binding.etDescription.setText(it.getStringExtra("product_description") ?: "")
             binding.etPrice.setText(it.getDoubleExtra("product_price", 0.0).toString())
             binding.etStock.setText(it.getIntExtra("product_stock", 0).toString())
-            binding.etCategory.setText(it.getStringExtra("product_category") ?: "")
+
+            // Preseleccionar la categoría actual en el dropdown
+            val categoriaActual = it.getStringExtra("product_category") ?: ""
+            binding.actvCategory.setText(categoriaActual, false)
         }
     }
 
     private fun actualizarProducto() {
         val product = Producto(
             id          = productId,
-            name        = binding.etName.text.toString().trim(),
+            name      = binding.etName.text.toString().trim(),
             description = binding.etDescription.text.toString().trim(),
-            price       = binding.etPrice.text.toString().toDouble(),
+            price      = binding.etPrice.text.toString().toDouble(),
             stock       = binding.etStock.text.toString().toInt(),
-            category    = binding.etCategory.text.toString().trim()
+            category   = binding.actvCategory.text.toString().trim()
         )
         viewModel.updateProduct(product)
     }
@@ -147,19 +179,28 @@ class EditProductActivity : AppCompatActivity() {
 
     private fun validarCampos(): Boolean {
         var isValid = true
-        binding.tilName.error  = null
-        binding.tilPrice.error = null
-        binding.tilStock.error = null
+        binding.tilName.error     = null
+        binding.tilPrice.error    = null
+        binding.tilStock.error    = null
+        binding.tilCategory.error = null
 
         if (!ValidationUtils.isNotEmpty(binding.etName.text.toString())) {
-            binding.tilName.error = getString(R.string.field_required); isValid = false
+            binding.tilName.error = getString(R.string.field_required)
+            isValid = false
         }
         if (!ValidationUtils.isValidPrice(binding.etPrice.text.toString())) {
-            binding.tilPrice.error = getString(R.string.price_invalid); isValid = false
+            binding.tilPrice.error = getString(R.string.price_invalid)
+            isValid = false
         }
         if (!ValidationUtils.isValidStock(binding.etStock.text.toString())) {
-            binding.tilStock.error = getString(R.string.stock_invalid); isValid = false
+            binding.tilStock.error = getString(R.string.stock_invalid)
+            isValid = false
         }
+        if (!ValidationUtils.isNotEmpty(binding.actvCategory.text.toString())) {
+            binding.tilCategory.error = getString(R.string.field_required)
+            isValid = false
+        }
+
         return isValid
     }
 }

@@ -29,27 +29,30 @@ class ProductAdapter(
 
         fun bind(product: Producto) {
             binding.tvProductName.text = product.name
-            binding.tvCategory.text = "📂 ${product.category}"
+            binding.tvCategory.text = "🏷️ ${product.category}"
             binding.tvDescription.text = product.description
             binding.tvPrice.text = "$${String.format("%.2f", product.price)}"
             binding.tvStock.text = "Stock: ${product.stock}"
 
             binding.tvIcon.text = when (product.category.lowercase()) {
-                "electrónica", "electronica" -> "📱"
-                "ropa", "moda"               -> "👕"
-                "alimentos", "comida"        -> "🍎"
-                "hogar"                      -> "🏠"
+                "electrónica"                -> "💻"
+                "ropa y moda"                -> "👕"
+                "alimentos y bebidas"        -> "🛍️"
+                "hogar y muebles"            -> "🏠"
                 "deportes"                   -> "⚽"
-                "libros"                     -> "📚"
+                "libros y educación"         -> "📚"
+                "juguetes"                   -> "🧸"
+                "salud y belleza"            -> "💄"
+                "automóviles"                -> "🚗"
                 else                         -> "📦"
             }
 
             val stockColor = when {
-                product.stock == 0 -> binding.root.context
+                product.stock <= 5  -> binding.root.context
                     .getColor(com.example.shopnova.R.color.error_red)
-                product.stock < 5  -> binding.root.context
+                product.stock < 10  -> binding.root.context
                     .getColor(com.example.shopnova.R.color.warning_orange)
-                else               -> binding.root.context
+                else                -> binding.root.context
                     .getColor(com.example.shopnova.R.color.accent_green)
             }
             binding.chipStock.setCardBackgroundColor(stockColor)

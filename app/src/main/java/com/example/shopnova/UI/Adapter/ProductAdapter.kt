@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopnova.databinding.ItemProductBinding
 import com.example.shopnova.Model.Producto
+import com.example.shopnova.databinding.ItemProductBinding
 
 class ProductAdapter(
     private val onItemClick: (Producto) -> Unit
@@ -28,13 +28,13 @@ class ProductAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Producto) {
-            binding.tvProductName.text = product.nombre
-            binding.tvCategory.text = "📂 ${product.categoria}"
-            binding.tvDescription.text = product.descripcion
-            binding.tvPrice.text = "$${String.format("%.2f", product.precio)}"
-            binding.tvStock.text = "Stock: ${product.existencias}"
+            binding.tvProductName.text = product.name
+            binding.tvCategory.text = "📂 ${product.category}"
+            binding.tvDescription.text = product.description
+            binding.tvPrice.text = "$${String.format("%.2f", product.price)}"
+            binding.tvStock.text = "Stock: ${product.stock}"
 
-            binding.tvIcon.text = when (product.categoria.lowercase()) {
+            binding.tvIcon.text = when (product.category.lowercase()) {
                 "electrónica", "electronica" -> "📱"
                 "ropa", "moda"               -> "👕"
                 "alimentos", "comida"        -> "🍎"
@@ -45,9 +45,9 @@ class ProductAdapter(
             }
 
             val stockColor = when {
-                product.existencias == 0 -> binding.root.context
+                product.stock == 0 -> binding.root.context
                     .getColor(com.example.shopnova.R.color.error_red)
-                product.existencias < 5  -> binding.root.context
+                product.stock < 5  -> binding.root.context
                     .getColor(com.example.shopnova.R.color.warning_orange)
                 else               -> binding.root.context
                     .getColor(com.example.shopnova.R.color.accent_green)

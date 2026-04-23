@@ -9,8 +9,11 @@ import com.example.shopnova.Repository.ProductRepository
 import com.example.shopnova.Utils.UiState
 import kotlinx.coroutines.launch
 
-class ProductViewModel: ViewModel() {
+class ProductViewModel : ViewModel() {
+
     private val repository = ProductRepository()
+
+    // ── Estados observables ───────────────────────────────────────────────────
 
     private val _productsState = MutableLiveData<UiState<List<Producto>>>(UiState.Idle)
     val productsState: LiveData<UiState<List<Producto>>> = _productsState
@@ -27,7 +30,10 @@ class ProductViewModel: ViewModel() {
     private val _countState = MutableLiveData<UiState<Int>>(UiState.Idle)
     val countState: LiveData<UiState<Int>> = _countState
 
+    // Cache local para búsqueda sin llamadas extra a Firebase
     private var allProducts: List<Producto> = emptyList()
+
+    // ── Acciones ──────────────────────────────────────────────────────────────
 
     fun loadProducts() {
         _productsState.value = UiState.Loading
@@ -38,36 +44,45 @@ class ProductViewModel: ViewModel() {
         }
     }
 
+    // Búsqueda local sin llamadas extra a Firebase
     fun searchProducts(query: String) {
         if (query.isEmpty()) {
             _productsState.value = UiState.Success(allProducts)
             return
         }
         val filtered = allProducts.filter {
-            it.nombre.contains(query, ignoreCase = true) ||
-                    it.categoria.contains(query, ignoreCase = true) ||
-                    it.descripcion.contains(query, ignoreCase = true)
+            it.name.contains(query, ignoreCase = true)    ||
+                    it.category.contains(query, ignoreCase = true) ||
+                    it.description.contains(query, ignoreCase = true)
         }
         _productsState.value = UiState.Success(filtered)
     }
 
     fun createProduct(product: Producto) {
         _createState.value = UiState.Loading
-        viewModelScope.launch { _createState.value = repository.createProduct(product) }
+        viewModelScope.launch {
+            _createState.value = repository.createProduct(product)
+        }
     }
 
     fun updateProduct(product: Producto) {
         _updateState.value = UiState.Loading
-        viewModelScope.launch { _updateState.value = repository.updateProduct(product) }
+        viewModelScope.launch {
+            _updateState.value = repository.updateProduct(product)
+        }
     }
 
     fun deleteProduct(productId: String) {
         _deleteState.value = UiState.Loading
-        viewModelScope.launch { _deleteState.value = repository.deleteProduct(productId) }
+        viewModelScope.launch {
+            _deleteState.value = repository.deleteProduct(productId)
+        }
     }
 
     fun loadProductCount() {
-        viewModelScope.launch { _countState.value = repository.getProductCount() }
+        viewModelScope.launch {
+            _countState.value = repository.getProductCount()
+        }
     }
 
     fun resetCreateState() { _createState.value = UiState.Idle }

@@ -3,7 +3,6 @@ package com.example.shopnova.Utils
 import android.content.Context
 import android.view.View
 import android.widget.Toast
-import androidx.core.R
 import com.google.android.material.snackbar.Snackbar
 
 fun View.visible() { visibility = View.VISIBLE }

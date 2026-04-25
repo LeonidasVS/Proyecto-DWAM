@@ -37,7 +37,7 @@ class ProductAdapter(
             binding.tvIcon.text = when (product.category.lowercase()) {
                 "electrónica"                -> "💻"
                 "ropa y moda"                -> "👕"
-                "alimentos y bebidas"        -> "🛍️"
+                "alimentos y bebidas"        -> "🍽️"
                 "hogar y muebles"            -> "🏠"
                 "deportes"                   -> "⚽"
                 "libros y educación"         -> "📚"

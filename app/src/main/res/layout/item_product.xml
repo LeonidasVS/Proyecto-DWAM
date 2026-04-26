@@ -25,13 +25,13 @@
             app:cardBackgroundColor="@color/gray_100"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:id="@+id/tvIcon"
+            <ImageView
+                android:id="@+id/ivIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="📦"
-                android:textSize="26sp" />
+                android:scaleType="centerCrop"
+                android:padding="8dp"
+                android:src="@drawable/ic_otros" />
         </androidx.cardview.widget.CardView>
 
         <TextView

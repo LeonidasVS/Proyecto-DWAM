@@ -26,14 +26,24 @@ class CreateProductActivity : AppCompatActivity() {
     // Lista de categorías disponibles
     private val categorias = listOf(
         "Electrónica",
-        "Ropa y Moda",
-        "Alimentos y Bebidas",
+        "Celulares",
+        "Computadoras y Laptops",
+        "Accesorios",
+        "Ropa Hombre",
+        "Ropa Mujer",
+        "Ropa Niños",
+        "Calzado",
+        "Joyería",
         "Hogar y Muebles",
-        "Deportes",
+        "Cocina y Comedor",
+        "Herramientas",
+        "Deportes y Fitness",
+        "Ropa Deportiva",
         "Libros y Educación",
         "Juguetes",
         "Salud y Belleza",
-        "Automóviles",
+        "Perfumes",
+        "Oficina y Papelería",
         "Otros"
     )
 

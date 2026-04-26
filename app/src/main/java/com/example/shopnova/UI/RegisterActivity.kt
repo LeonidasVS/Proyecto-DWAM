@@ -2,6 +2,7 @@ package com.example.shopnova.UI
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,11 @@ import com.example.shopnova.databinding.ActivityRegisterBinding
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+
+    private val roles=listOf(
+        "Cliente",
+        "Administrador"
+    )
     private val viewModel: AuthViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,13 +41,15 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         setupObservers()
+        setupRolesDropdown()
 
         binding.btnRegister.setOnClickListener {
             if(validarCampos()){
                 val nombre=binding.etName.text.toString().trim()
                 val email=binding.etEmail.text.toString().trim()
                 val password=binding.etPassword.text.toString()
-                viewModel.register(nombre,email,password)
+                val role=binding.actvRole.text.toString().trim()
+                viewModel.register(nombre,email,role,password)
 
             }
         }
@@ -51,6 +59,19 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupRolesDropdown(){
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            roles
+        )
+        binding.actvRole.setAdapter(adapter)
+
+        // Al hacer click abre el dropdown
+        binding.actvRole.setOnClickListener {
+            binding.actvRole.showDropDown()
+        }
+    }
     private fun setupObservers(){
         viewModel.registerState.observe(this) { state ->
             when (state) {

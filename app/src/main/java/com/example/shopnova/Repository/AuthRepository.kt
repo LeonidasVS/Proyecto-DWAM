@@ -33,6 +33,7 @@ class AuthRepository {
     suspend fun register(
         name: String,
         email: String,
+        role: String,
         password: String
     ): UiState<FirebaseUser> {
         return try {
@@ -52,7 +53,7 @@ class AuthRepository {
                 "uid"       to firebaseUser.uid,
                 "name"      to name,
                 "email"     to email,
-                "role"      to "user",
+                "role"      to role,
                 "createdAt" to System.currentTimeMillis()
             )
             usersRef.child(firebaseUser.uid).setValue(userData).await()

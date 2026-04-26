@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopnova.Model.Producto
+import com.example.shopnova.R
 import com.example.shopnova.databinding.ItemProductBinding
 
 class ProductAdapter(
@@ -34,18 +35,27 @@ class ProductAdapter(
             binding.tvPrice.text = "$${String.format("%.2f", product.price)}"
             binding.tvStock.text = "Stock: ${product.stock}"
 
-            binding.tvIcon.text = when (product.category.lowercase()) {
-                "electrónica"                -> "💻"
-                "ropa y moda"                -> "👕"
-                "alimentos y bebidas"        -> "🍽️"
-                "hogar y muebles"            -> "🏠"
-                "deportes"                   -> "⚽"
-                "libros y educación"         -> "📚"
-                "juguetes"                   -> "🧸"
-                "salud y belleza"            -> "💄"
-                "automóviles"                -> "🚗"
-                else                         -> "📦"
-            }
+            binding.ivIcon.setImageResource(when (product.category.lowercase()) {
+                "electrónica", "celulares", "computadoras y laptops"         -> R.drawable.ic_electronica
+                "accesorios"          -> R.drawable.ic_accesorios
+                "ropa hombre"         -> R.drawable.ic_ropa_hombre
+                "ropa mujer"         -> R.drawable.ic_ropa_mujer
+                "ropa niños"         -> R.drawable.ic_ropa_nino
+                "ropa deportiva"         -> R.drawable.ic_ropa_deportiva
+                "calzado"         -> R.drawable.ic_calzado
+                "joyería "         -> R.drawable.ic_joyeria
+                "hogar y muebles"     -> R.drawable.ic_hogar
+                "cocina y comedor"     -> R.drawable.ic_cocina
+                "herramientas"     -> R.drawable.ic_herramientas
+                "deportes"            -> R.drawable.ic_deporte
+                "fitness"     -> R.drawable.ic_fitness
+                "libros y educación"  -> R.drawable.ic_educacion
+                "juguetes"            -> R.drawable.ic_juguetes
+                "salud y belleza"     -> R.drawable.ic_salud
+                "perfumes"         -> R.drawable.ic_perfumes
+                "oficina y papelería"         -> R.drawable.ic_papeleria
+                else                  -> R.drawable.ic_otros
+            })
 
             val stockColor = when {
                 product.stock <= 5  -> binding.root.context

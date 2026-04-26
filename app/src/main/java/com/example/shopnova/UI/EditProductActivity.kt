@@ -27,14 +27,23 @@ class EditProductActivity : AppCompatActivity() {
 
     private val categorias = listOf(
         "Electrónica",
-        "Ropa y Moda",
-        "Alimentos y Bebidas",
+        "Celulares y Accesorios",
+        "Computadoras y Laptops",
+        "Ropa Hombre",
+        "Ropa Mujer",
+        "Ropa Niños",
+        "Calzado",
+        "Joyería y Accesorios",
         "Hogar y Muebles",
-        "Deportes",
+        "Cocina y Comedor",
+        "Herramientas",
+        "Deportes y Fitness",
+        "Ropa Deportiva",
         "Libros y Educación",
         "Juguetes",
         "Salud y Belleza",
-        "Automóviles",
+        "Perfumes",
+        "Oficina y Papelería",
         "Otros"
     )
 
@@ -55,6 +64,12 @@ class EditProductActivity : AppCompatActivity() {
         setupCategoryDropdown()
         cargarDatosDelIntent()
         setupObservers()
+
+        // Deshabilitar nombre
+        binding.tilName.isEnabled = false
+
+        // Deshabilitar categoría dropdown
+        binding.tilCategory.isEnabled=false
 
         binding.btnUpdate.setOnClickListener {
             if (validarCampos()) {
@@ -116,6 +131,7 @@ class EditProductActivity : AppCompatActivity() {
 
     private fun mostrarDialogoEliminar() {
         AlertDialog.Builder(this)
+            .setIcon(R.drawable.ic_advertencia)
             .setTitle(getString(R.string.confirm_delete))
             .setMessage(getString(R.string.delete_message))
             .setPositiveButton("Eliminar") { _, _ ->

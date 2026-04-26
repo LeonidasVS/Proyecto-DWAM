@@ -42,10 +42,10 @@ class AuthViewModel : ViewModel() {
     }
 
     // REGISTRO
-    fun register(name: String, email: String, password: String) {
+    fun register(name: String, email: String, role: String, password: String) {
         _registerState.value = UiState.Loading
         viewModelScope.launch {
-            _registerState.value = repository.register(name, email, password)
+            _registerState.value = repository.register(name, email, role,password)
         }
     }
 

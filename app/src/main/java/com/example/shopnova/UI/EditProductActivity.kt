@@ -65,12 +65,6 @@ class EditProductActivity : AppCompatActivity() {
         cargarDatosDelIntent()
         setupObservers()
 
-        // Deshabilitar nombre
-        binding.tilName.isEnabled = false
-
-        // Deshabilitar categoría dropdown
-        binding.tilCategory.isEnabled=false
-
         binding.btnUpdate.setOnClickListener {
             if (validarCampos()) {
                 actualizarProducto()

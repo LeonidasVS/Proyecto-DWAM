@@ -60,6 +60,13 @@ class DashboardActivity : AppCompatActivity() {
         binding.cardLogout.setOnClickListener {
             mostrarDialogoCerrarSesion()
         }
+
+        binding.cardProducts.setOnClickListener {
+            val intent = Intent(this, ProductListActivity::class.java).apply {
+                putExtra("rol", rolActual) // ✅ Envía el rol
+            }
+            startActivity(intent)
+        }
     }
 
     private fun setupUI() {
@@ -92,7 +99,7 @@ class DashboardActivity : AppCompatActivity() {
                             binding.cardAddProduct    to listOf(RolUtils.ROL_ADMIN),
                             binding.cardProducts      to listOf(RolUtils.ROL_ADMIN, RolUtils.ROL_CLIENTE),
                             binding.cardPerfilUsuario to listOf(RolUtils.ROL_ADMIN, RolUtils.ROL_CLIENTE),
-                            binding.cardLogout        to listOf(RolUtils.ROL_ADMIN, RolUtils.ROL_CLIENTE)
+                            binding.cardLogout        to listOf(RolUtils.ROL_ADMIN, RolUtils.ROL_CLIENTE),
                         )
                     )
 
@@ -139,4 +146,5 @@ class DashboardActivity : AppCompatActivity() {
         super.onResume()
         productViewModel.loadProductCount()
     }
+
 }

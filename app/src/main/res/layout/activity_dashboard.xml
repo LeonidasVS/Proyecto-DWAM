@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/primary_blue"
+                    android:textColor="@color/gray_600"
                     android:textSize="32sp"
                     android:textStyle="bold" />
 
@@ -103,9 +103,9 @@
                     android:id="@+id/tvUserEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/accent_green"
-                    android:textSize="16sp"
+                    android:text="Usuario"
+                    android:textColor="@color/gray_600"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -166,7 +166,7 @@
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         app:cardCornerRadius="14dp"
-                        app:cardBackgroundColor="@color/gray_800">
+                        app:cardBackgroundColor="@color/primary_blue">
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -249,7 +249,7 @@
                             android:id="@+id/tituloCard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="T"
+                            android:text="Gestion de Productos"
                             android:textColor="@color/gray_800"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -258,7 +258,7 @@
                             android:id="@+id/subTitulo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ST"
+                            android:text="Ver, editar y eliminar productos"
                             android:textColor="@color/gray_600"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -296,7 +296,7 @@
                         android:layout_width="52dp"
                         android:layout_height="52dp"
                         app:cardCornerRadius="14dp"
-                        app:cardBackgroundColor="@color/accent_green">
+                        app:cardBackgroundColor="@color/primary_blue">
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -375,7 +375,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cerrar Sesión"
-                            android:textColor="@color/error_red"
+                            android:textColor="@color/gray_800"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                         <TextView

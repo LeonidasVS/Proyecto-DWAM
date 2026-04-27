@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopnova.R
+import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.ValidationUtils
 import com.example.shopnova.Utils.gone
@@ -44,13 +45,32 @@ class RegisterActivity : AppCompatActivity() {
         setupRolesDropdown()
 
         binding.btnRegister.setOnClickListener {
-            if(validarCampos()){
-                val nombre=binding.etName.text.toString().trim()
-                val email=binding.etEmail.text.toString().trim()
-                val password=binding.etPassword.text.toString()
-                val role=binding.actvRole.text.toString().trim()
-                viewModel.register(nombre,email,role,password)
+            val nombre   = binding.etName.text.toString().trim()
+            val email    = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString()
+            val role     = binding.actvRole.text.toString().trim().lowercase()
 
+            if (role == RolUtils.ROL_ADMIN) {
+                // Si es admin verificar el límite antes de registrar
+                binding.progressBar.visible()
+                binding.btnRegister.isEnabled = false
+
+                RolUtils.verificarLimiteAdmins(
+                    onPermitido = {
+                        // Hay espacio, proceder con el registro
+                        viewModel.register(nombre, email, role, password)
+                    },
+                    onLimitAlcanzado = {
+                        // Ya hay 3 admins, no permitir
+                        binding.progressBar.gone()
+                        binding.btnRegister.isEnabled = true
+                        binding.tiltRole.error =
+                            "Límite alcanzado: solo se permiten ${RolUtils.MAX_ADMINS} administradores"
+                    }
+                )
+            } else {
+                // Es cliente, registrar directo sin verificar
+                viewModel.register(nombre, email, role, password)
             }
         }
 

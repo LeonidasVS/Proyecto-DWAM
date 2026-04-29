@@ -27,7 +27,7 @@
     <string name="product_category">Categoría</string>
     <string name="save">Guardar</string>
     <string name="cancel">Cancelar</string>
-    <string name="update">Actualizar</string>
+    <string name="update">Editar</string>
     <string name="confirm_delete">¿Eliminar producto?</string>
     <string name="delete_message">Esta acción no se puede deshacer.</string>
     <string name="no_products">No hay productos disponibles</string>

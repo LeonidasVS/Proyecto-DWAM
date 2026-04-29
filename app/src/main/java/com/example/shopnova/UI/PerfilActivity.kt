@@ -1,6 +1,7 @@
 package com.example.shopnova.UI
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,10 @@ class PerfilActivity : AppCompatActivity() {
         setupToolbar()
         setupObservers()
         cargarDatosUsuario()
+
+        binding.btnEliminarUser.setOnClickListener {
+            Toast.makeText(this, "Eliminar usaurio", Toast.LENGTH_LONG).show()
+        }
     }
 
 

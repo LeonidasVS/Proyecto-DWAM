@@ -22,15 +22,16 @@ import com.example.shopnova.databinding.ActivityRegisterBinding
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+    private val viewModel: AuthViewModel by viewModels()
 
-    private val roles=listOf(
+    private val roles = listOf(
         "Cliente",
         "Administrador"
     )
-    private val viewModel: AuthViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        binding= ActivityRegisterBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,32 +46,9 @@ class RegisterActivity : AppCompatActivity() {
         setupRolesDropdown()
 
         binding.btnRegister.setOnClickListener {
-            val nombre   = binding.etName.text.toString().trim()
-            val email    = binding.etEmail.text.toString().trim()
-            val password = binding.etPassword.text.toString()
-            val role     = binding.actvRole.text.toString().trim().lowercase()
-
-            if (role == RolUtils.ROL_ADMIN) {
-                // Si es admin verificar el límite antes de registrar
-                binding.progressBar.visible()
-                binding.btnRegister.isEnabled = false
-
-                RolUtils.verificarLimiteAdmins(
-                    onPermitido = {
-                        // Hay espacio, proceder con el registro
-                        viewModel.register(nombre, email, role, password)
-                    },
-                    onLimitAlcanzado = {
-                        // Ya hay 3 admins, no permitir
-                        binding.progressBar.gone()
-                        binding.btnRegister.isEnabled = true
-                        binding.tiltRole.error =
-                            "Límite alcanzado: solo se permiten ${RolUtils.MAX_ADMINS} administradores"
-                    }
-                )
-            } else {
-                // Es cliente, registrar directo sin verificar
-                viewModel.register(nombre, email, role, password)
+            // ✅ Solo procesa si los campos son válidos
+            if (validarCampos()) {
+                procesarRegistro()
             }
         }
 
@@ -79,20 +57,50 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRolesDropdown(){
+    // ── Procesa el registro según el rol ──────────────────────────────────────
+    private fun procesarRegistro() {
+        val nombre   = binding.etName.text.toString().trim()
+        val email    = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString()
+        val role     = binding.actvRole.text.toString().trim().lowercase()
+
+        if (role == RolUtils.ROL_ADMIN) {
+            // Deshabilitar botón mientras verifica
+            binding.progressBar.visible()
+            binding.btnRegister.isEnabled = false
+
+            RolUtils.verificarLimiteAdmins(
+                onPermitido = {
+                    // ✅ Hay espacio, proceder con el registro
+                    viewModel.register(nombre, email, role, password)
+                },
+                onLimitAlcanzado = {
+                    // ❌ Ya hay 3 admins
+                    binding.progressBar.gone()
+                    binding.btnRegister.isEnabled = true
+                    binding.tiltRole.error =
+                        "Límite alcanzado: solo se permiten ${RolUtils.MAX_ADMINS} administradores"
+                }
+            )
+        } else {
+            // Es cliente, registrar directo
+            viewModel.register(nombre, email, role, password)
+        }
+    }
+
+    private fun setupRolesDropdown() {
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_dropdown_item_1line,
             roles
         )
         binding.actvRole.setAdapter(adapter)
-
-        // Al hacer click abre el dropdown
         binding.actvRole.setOnClickListener {
             binding.actvRole.showDropDown()
         }
     }
-    private fun setupObservers(){
+
+    private fun setupObservers() {
         viewModel.registerState.observe(this) { state ->
             when (state) {
                 is UiState.Loading -> {
@@ -120,17 +128,20 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun validarCampos() : Boolean {
+    private fun validarCampos(): Boolean {
         var isValid = true
-        val name = binding.etName.text.toString().trim()
-        val email = binding.etEmail.text.toString().trim()
-        val password = binding.etPassword.text.toString()
+        val name            = binding.etName.text.toString().trim()
+        val email           = binding.etEmail.text.toString().trim()
+        val password        = binding.etPassword.text.toString()
         val confirmPassword = binding.etConfirmPassword.text.toString()
+        val role            = binding.actvRole.text.toString().trim()
 
-        binding.tilName.error = null
-        binding.tilEmail.error = null
-        binding.tilPassword.error = null
+        // Limpiar errores previos
+        binding.tilName.error            = null
+        binding.tilEmail.error           = null
+        binding.tilPassword.error        = null
         binding.tilConfirmPassword.error = null
+        binding.tiltRole.error           = null
 
         if (!ValidationUtils.isNotEmpty(name)) {
             binding.tilName.error = getString(R.string.field_required)
@@ -151,11 +162,16 @@ class RegisterActivity : AppCompatActivity() {
             binding.tilConfirmPassword.error = getString(R.string.passwords_not_match)
             isValid = false
         }
+        // ✅ Validar que se haya seleccionado un rol
+        if (!ValidationUtils.isNotEmpty(role)) {
+            binding.tiltRole.error = getString(R.string.field_required)
+            isValid = false
+        }
 
         return isValid
     }
 
-    private fun irDashboard(){
+    private fun irDashboard() {
         val intent = Intent(this, DashboardActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

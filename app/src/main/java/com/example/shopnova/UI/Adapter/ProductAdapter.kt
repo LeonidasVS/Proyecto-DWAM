@@ -36,25 +36,27 @@ class ProductAdapter(
             binding.tvStock.text = "Stock: ${product.stock}"
 
             binding.ivIcon.setImageResource(when (product.category.lowercase()) {
-                "electrónica", "celulares", "computadoras y laptops"         -> R.drawable.ic_electronica
-                "accesorios"          -> R.drawable.ic_accesorios
-                "ropa hombre"         -> R.drawable.ic_ropa_hombre
-                "ropa mujer"         -> R.drawable.ic_ropa_mujer
-                "ropa niños"         -> R.drawable.ic_ropa_nino
-                "ropa deportiva"         -> R.drawable.ic_ropa_deportiva
-                "calzado"         -> R.drawable.ic_calzado
-                "joyería "         -> R.drawable.ic_joyeria
-                "hogar y muebles"     -> R.drawable.ic_hogar
+                "electrónica"          -> R.drawable.ic_electronica
+                "celulares"            -> R.drawable.ic_electronica
+                "computadoras y laptops" -> R.drawable.ic_electronica
+                "accesorios"           -> R.drawable.ic_accesorios
+                "ropa hombre"          -> R.drawable.ic_ropa_hombre
+                "ropa mujer"           -> R.drawable.ic_ropa_mujer
+                "ropa niños"           -> R.drawable.ic_ropa_nino
+                "calzado"              -> R.drawable.ic_calzado
+                "joyería"              -> R.drawable.ic_joyeria
+                "hogar y muebles"      -> R.drawable.ic_hogar
                 "cocina y comedor"     -> R.drawable.ic_cocina
-                "herramientas"     -> R.drawable.ic_herramientas
-                "deportes"            -> R.drawable.ic_deporte
-                "fitness"     -> R.drawable.ic_fitness
-                "libros y educación"  -> R.drawable.ic_educacion
-                "juguetes"            -> R.drawable.ic_juguetes
-                "salud y belleza"     -> R.drawable.ic_salud
-                "perfumes"         -> R.drawable.ic_perfumes
-                "oficina y papelería"         -> R.drawable.ic_papeleria
-                else                  -> R.drawable.ic_otros
+                "herramientas"         -> R.drawable.ic_herramientas
+                "deportes"             -> R.drawable.ic_deporte
+                "fitness"              -> R.drawable.ic_fitness
+                "ropa deportiva"       -> R.drawable.ic_ropa_deportiva
+                "libros y educación"   -> R.drawable.ic_educacion
+                "juguetes"             -> R.drawable.ic_juguetes
+                "salud y belleza"      -> R.drawable.ic_salud
+                "perfumes"             -> R.drawable.ic_perfumes
+                "oficina y papelería"  -> R.drawable.ic_papeleria
+                else                   -> R.drawable.ic_otros
             })
 
             val stockColor = when {

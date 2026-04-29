@@ -15,7 +15,7 @@ object RolUtils {
     // ── Formato visual del rol ────────────────────────────────────────────────
     fun formatearRol(rol: String): String {
         return when (rol.lowercase()) {
-            ROL_ADMIN   -> "Administrador"
+            ROL_ADMIN   -> "Admin"
             ROL_CLIENTE -> "Cliente"
             else        -> "$rol"
         }

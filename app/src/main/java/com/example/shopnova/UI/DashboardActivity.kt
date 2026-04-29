@@ -54,7 +54,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         binding.cardPerfilUsuario.setOnClickListener {
-            Toast.makeText(this, "¡Ir a perfil de usuario!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, PerfilActivity::class.java))
         }
 
         binding.cardLogout.setOnClickListener {

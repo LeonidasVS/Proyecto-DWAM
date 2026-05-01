@@ -42,6 +42,7 @@
 
     <!-- Validaciones -->
     <string name="field_required">Este campo es requerido</string>
+    <string name="field_name_caracter">Límite: 20 caracteres</string>
     <string name="invalid_email">Correo electrónico inválido</string>
     <string name="password_short">La contraseña debe tener al menos 6 caracteres</string>
     <string name="passwords_not_match">Las contraseñas no coinciden</string>

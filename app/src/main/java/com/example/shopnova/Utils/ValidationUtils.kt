@@ -15,4 +15,7 @@ object ValidationUtils {
 
     fun isValidStock(stock: String): Boolean =
         try { stock.toInt() >= 0 } catch (e: NumberFormatException) { false }
+
+    fun isValidName(name: String): Boolean =
+        name.length <= 20
 }

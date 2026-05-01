@@ -23,12 +23,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="🛒"
-                android:textSize="40sp" />
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/shop"/>
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -158,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/poppins_extralight"
+            android:fontFamily="@font/poppins_regular"
             android:layout_marginBottom="24dp"
             android:text="@string/no_account"
             android:textColor="@color/primary_blue"

@@ -90,9 +90,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total_products"
+                    android:fontFamily="@font/poppins_extralight"
                     android:includeFontPadding="false"
                     android:textColor="@color/gray_600"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <View
@@ -116,7 +117,7 @@
                     android:text="Usuario"
                     android:includeFontPadding="false"
                     android:textColor="@color/gray_600"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -126,7 +127,7 @@
                     android:includeFontPadding="false"
                     android:fontFamily="@font/poppins_extralight"
                     android:textColor="@color/gray_600"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

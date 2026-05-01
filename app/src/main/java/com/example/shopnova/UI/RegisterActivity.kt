@@ -147,6 +147,10 @@ class RegisterActivity : AppCompatActivity() {
             binding.tilName.error = getString(R.string.field_required)
             isValid = false
         }
+        if(!ValidationUtils.isValidName(name)){
+            binding.tilName.error = getString(R.string.field_name_caracter)
+            isValid = false
+        }
         if (!ValidationUtils.isNotEmpty(email)) {
             binding.tilEmail.error = getString(R.string.field_required)
             isValid = false

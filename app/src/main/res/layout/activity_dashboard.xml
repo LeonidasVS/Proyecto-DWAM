@@ -21,8 +21,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¡Bienvenido!"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/poppins_extralight"
             android:textColor="@color/white"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:alpha="0.8" />
 
         <TextView
@@ -30,8 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Usuario"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/poppins_medium"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -39,6 +43,8 @@
             android:layout_height="wrap_content"
             android:text="Panel de administración"
             android:textColor="@color/white"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/poppins_extralight"
             android:textSize="12sp"
             android:alpha="0.7" />
     </LinearLayout>
@@ -73,17 +79,21 @@
                     android:id="@+id/tvTotalProducts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="0"
+                    android:includeFontPadding="false"
                     android:textColor="@color/gray_600"
-                    android:textSize="32sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total_products"
+                    android:fontFamily="@font/poppins_extralight"
+                    android:includeFontPadding="false"
                     android:textColor="@color/gray_600"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <View
@@ -103,17 +113,21 @@
                     android:id="@+id/tvUserEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="Usuario"
+                    android:includeFontPadding="false"
                     android:textColor="@color/gray_600"
-                    android:textSize="20sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rol del Usuario"
+                    android:includeFontPadding="false"
+                    android:fontFamily="@font/poppins_extralight"
                     android:textColor="@color/gray_600"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -128,6 +142,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+            android:id="@+id/scrollMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -138,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:text="Acciones rápidas"
                 android:textColor="@color/gray_800"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
                 android:textStyle="bold"
                 android:layout_marginBottom="14dp" />
 
@@ -180,21 +196,23 @@
                         android:layout_marginStart="14dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Perfil Usuario"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/poppins_regular"
                             android:textColor="@color/gray_800"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Gestionar mi perfil de usuario"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/poppins_extralight"
                             android:textColor="@color/gray_600"
-                            android:textSize="13sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <TextView
@@ -244,23 +262,25 @@
                         android:layout_marginStart="14dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
-
                         <TextView
                             android:id="@+id/tituloCard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Gestion de Productos"
+                            android:includeFontPadding="false"
                             android:textColor="@color/gray_800"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/poppins_regular"
                             android:textStyle="bold" />
-
                         <TextView
                             android:id="@+id/subTitulo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_extralight"
+                            android:includeFontPadding="false"
                             android:text="Ver, editar y eliminar productos"
                             android:textColor="@color/gray_600"
-                            android:textSize="13sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <TextView
@@ -314,15 +334,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Agregar Producto"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
                             android:textColor="@color/gray_800"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                         <TextView
                             android:layout_width="wrap_content"
+                            android:fontFamily="@font/poppins_extralight"
                             android:layout_height="wrap_content"
                             android:text="Registrar nuevo producto"
+                            android:includeFontPadding="false"
                             android:textColor="@color/gray_600"
-                            android:textSize="13sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <TextView
@@ -376,14 +400,18 @@
                             android:layout_height="wrap_content"
                             android:text="Cerrar Sesión"
                             android:textColor="@color/gray_800"
-                            android:textSize="16sp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_extralight"
                             android:text="Salir de la aplicación"
+                            android:includeFontPadding="false"
                             android:textColor="@color/gray_600"
-                            android:textSize="13sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <TextView
@@ -397,5 +425,17 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- ProgressBar centrado sobre toda la pantalla -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateTint="@color/primary_blue_dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

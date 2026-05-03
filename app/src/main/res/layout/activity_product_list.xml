@@ -33,6 +33,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="32dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/primary_blue_dark"/>
 
                 <!-- Estado vacío -->
                 <LinearLayout

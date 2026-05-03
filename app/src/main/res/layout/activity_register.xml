@@ -18,8 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="Crear Cuenta"
+            android:fontFamily="@font/poppins_medium"
             android:textColor="@color/primary_blue"
-            android:textSize="28sp"
+            android:textSize="22sp"
+            android:includeFontPadding="false"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +33,9 @@
             android:layout_marginTop="4dp"
             android:text="Únete a ShopNova hoy"
             android:textColor="@color/gray_600"
-            android:textSize="14sp"
+            android:textSize="12sp"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/poppins_extralight"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
@@ -62,6 +66,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etName"
                         android:layout_width="match_parent"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:imeOptions="actionNext" />
@@ -77,6 +82,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEmail"
                         android:layout_width="match_parent"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:imeOptions="actionNext" />
@@ -94,6 +100,7 @@
                         android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:inputType="textPassword"
                         android:imeOptions="actionNext" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -110,6 +117,7 @@
                         android:id="@+id/etConfirmPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:inputType="textPassword"
                         android:imeOptions="actionDone" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -131,6 +139,7 @@
                         android:focusableInTouchMode="false"
                         android:inputType="none"
                         android:paddingStart="16dp"
+                        android:textColor="@color/black"
                         android:paddingEnd="16dp"
                         android:paddingTop="16dp"
                         android:paddingBottom="16dp" />
@@ -142,6 +151,7 @@
                     style="@style/ShopNova.Button.Primary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_marginTop="20dp"
                     android:text="@string/register" />
 
@@ -150,6 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:indeterminateTint="@color/primary_blue_dark"
                     android:layout_marginTop="8dp"
                     android:visibility="gone" />
             </LinearLayout>
@@ -163,7 +174,9 @@
             android:layout_marginBottom="24dp"
             android:text="@string/have_account"
             android:textColor="@color/primary_blue"
-            android:textSize="15sp"
+            android:textSize="12sp"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardForm"

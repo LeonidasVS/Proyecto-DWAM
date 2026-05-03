@@ -14,6 +14,8 @@ import com.example.shopnova.R
 import com.example.shopnova.Utils.FirebaseUtils
 import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
+import com.example.shopnova.Utils.gone
+import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.Viewmodel.ProductViewModel
 import com.example.shopnova.databinding.ActivityDashboardBinding
@@ -84,7 +86,15 @@ class DashboardActivity : AppCompatActivity() {
 
         autViewModel.userDataState.observe(this) { state ->
             when (state) {
+                is UiState.Loading -> {
+                    binding.progressBar.visible()
+                    binding.scrollMenu.gone()
+                }
+
                 is UiState.Success -> {
+                    binding.progressBar.gone()
+                    binding.scrollMenu.visible()
+
                     val user  = state.data
                     rolActual = user.role.lowercase()
 

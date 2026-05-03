@@ -53,6 +53,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etName"
                         android:layout_width="match_parent"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
                         android:imeOptions="actionNext" />
@@ -71,6 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
+                        android:textColor="@color/black"
                         android:minLines="3"
                         android:gravity="top" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -88,6 +90,7 @@
                         android:id="@+id/etPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:inputType="numberDecimal"
                         android:imeOptions="actionNext" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -104,6 +107,7 @@
                         android:id="@+id/etStock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:inputType="number"
                         android:imeOptions="actionNext" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -125,6 +129,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:inputType="none"
+                        android:textColor="@color/black"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:paddingTop="16dp"
@@ -138,6 +143,7 @@
                     style="@style/ShopNova.Button.Primary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_marginTop="22dp"
                     android:text="@string/save" />
 
@@ -147,7 +153,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/primary_blue_dark"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

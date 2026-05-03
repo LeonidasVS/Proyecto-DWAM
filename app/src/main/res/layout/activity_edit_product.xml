@@ -53,6 +53,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etName"
                         android:layout_width="match_parent"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -69,6 +70,7 @@
                         android:id="@+id/etDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:inputType="textMultiLine"
                         android:minLines="3"
                         android:gravity="top" />
@@ -86,6 +88,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPrice"
                         android:layout_width="match_parent"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -101,6 +104,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etStock"
                         android:layout_width="match_parent"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -120,6 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
+                        android:textColor="@color/black"
                         android:focusableInTouchMode="false"
                         android:inputType="none"
                         android:paddingStart="16dp"
@@ -141,6 +146,7 @@
                         style="@style/ShopNova.Button.Danger"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
                         android:text="@string/delete_product" />
@@ -151,6 +157,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:includeFontPadding="false"
                         android:layout_marginStart="8dp"
                         android:text="@string/update" />
                 </LinearLayout>
@@ -161,7 +168,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/primary_blue_dark"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

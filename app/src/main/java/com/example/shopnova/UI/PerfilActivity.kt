@@ -1,6 +1,7 @@
 package com.example.shopnova.UI
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import com.example.shopnova.R
 import com.example.shopnova.Utils.FirebaseUtils
 import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
+import com.example.shopnova.Utils.gone
+import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.databinding.ActivityPerfilBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +41,10 @@ class PerfilActivity : AppCompatActivity() {
         setupToolbar()
         setupObservers()
         cargarDatosUsuario()
+
+        binding.btnEliminarUser.setOnClickListener {
+            Toast.makeText(this, "Eliminar usaurio", Toast.LENGTH_LONG).show()
+        }
     }
 
 
@@ -57,7 +64,21 @@ class PerfilActivity : AppCompatActivity() {
     private fun setupObservers() {
         viewModel.userDataState.observe(this) { state ->
             when (state) {
+
+                is UiState.Loading -> {
+                    binding.progressBar.visible()
+                    binding.tvAvatar.gone()
+                    binding.cardUsuario.gone()
+                    binding.btnEliminarUser.gone()
+                }
+
                 is UiState.Success -> {
+
+                    binding.progressBar.gone()
+                    binding.tvAvatar.visible()
+                    binding.cardUsuario.visible()
+                    binding.btnEliminarUser.visible()
+
                     val user = state.data
 
                     // Nombre
@@ -77,14 +98,25 @@ class PerfilActivity : AppCompatActivity() {
                         .firstOrNull()
                         ?.uppercase()
                         ?: "U"
+
+                    // Nombre en el header
+                    binding.tvNombreHeader.text = user.name.ifEmpty { "Usuario" }
                 }
+
                 is UiState.Error -> {
-                    binding.tvNombre.text = FirebaseUtils.getCurrentUserName()
-                    binding.tvCorreo.text = FirebaseUtils.getCurrentUserEmail()
-                    binding.tvRol.text    = "👤 Usuario"
-                    binding.tvFecha.text  = "No disponible"
-                    binding.tvAvatar.text = "U"
+                    // Ocultar loading y mostrar contenido con datos de Auth
+                    binding.progressBar.gone()
+                    binding.progressBar.visible()
+                    binding.btnEliminarUser.visible()
+
+                    binding.tvNombre.text      = FirebaseUtils.getCurrentUserName()
+                    binding.tvCorreo.text      = FirebaseUtils.getCurrentUserEmail()
+                    binding.tvRol.text         = "👤 Usuario"
+                    binding.tvFecha.text       = "No disponible"
+                    binding.tvAvatar.text      = "U"
+                    binding.tvNombreHeader.text = FirebaseUtils.getCurrentUserName()
                 }
+
                 else -> {}
             }
         }
@@ -95,6 +127,10 @@ class PerfilActivity : AppCompatActivity() {
         if (timestamp == 0L) return "No disponible"
         val formato = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale("es", "ES"))
         return formato.format(Date(timestamp))
+    }
+
+    private fun eliminarUsuario(){
+
     }
 
 }

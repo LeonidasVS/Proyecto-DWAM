@@ -79,7 +79,6 @@
                     android:id="@+id/tvTotalProducts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
                     android:text="0"
                     android:includeFontPadding="false"
                     android:textColor="@color/gray_600"
@@ -208,7 +207,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gestionar mi perfil de usuario"
+                            android:text="Gestionar mi perfil."
                             android:includeFontPadding="false"
                             android:fontFamily="@font/poppins_extralight"
                             android:textColor="@color/gray_600"
@@ -278,7 +277,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_extralight"
                             android:includeFontPadding="false"
-                            android:text="Ver, editar y eliminar productos"
+                            android:text="Ver, editar y eliminar productos."
                             android:textColor="@color/gray_600"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -343,7 +342,7 @@
                             android:layout_width="wrap_content"
                             android:fontFamily="@font/poppins_extralight"
                             android:layout_height="wrap_content"
-                            android:text="Registrar nuevo producto"
+                            android:text="Registrar nuevo producto."
                             android:includeFontPadding="false"
                             android:textColor="@color/gray_600"
                             android:textSize="11sp" />
@@ -408,7 +407,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_extralight"
-                            android:text="Salir de la aplicación"
+                            android:text="Salir de la aplicación."
                             android:includeFontPadding="false"
                             android:textColor="@color/gray_600"
                             android:textSize="11sp" />

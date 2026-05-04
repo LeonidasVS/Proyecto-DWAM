@@ -36,7 +36,7 @@
     <!-- Dashboard -->
     <string name="dashboard">Panel Principal</string>
     <string name="welcome">¡Bienvenido</string>
-    <string name="total_products">Total Productos</string>
+    <string name="total_products">Productos</string>
     <string name="manage_products">Gestionar Productos</string>
     <string name="view_profile">Ver Perfil</string>
 

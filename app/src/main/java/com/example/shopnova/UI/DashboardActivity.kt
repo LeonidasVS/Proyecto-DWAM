@@ -117,11 +117,11 @@ class DashboardActivity : AppCompatActivity() {
                     when (rolActual) {
                         RolUtils.ROL_ADMIN -> {
                             binding.tituloCard.text = "Gestionar Productos"
-                            binding.subTitulo.text  = "Ver, crear y editar productos"
+                            binding.subTitulo.text  = "Ver, crear y editar productos."
                         }
                         RolUtils.ROL_CLIENTE -> {
                             binding.tituloCard.text = "Lista de Productos"
-                            binding.subTitulo.text  = "Ver productos disponibles"
+                            binding.subTitulo.text  = "Ver productos disponibles."
                         }
                     }
                 }

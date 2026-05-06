@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopnova.Model.Producto
 import com.example.shopnova.R
 import com.example.shopnova.Utils.CarritoManager
+import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.databinding.ItemProductBinding
 
 class ProductAdapter(
+    private val rol: String,
     private val onItemClick: (Producto) -> Unit,
     private val onAgregarCarrito: (Producto) -> Unit
 ) : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
@@ -25,6 +27,9 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
+    private var rolActual: String = ""
+
 
     inner class ProductViewHolder(
         private val binding: ItemProductBinding
@@ -86,7 +91,6 @@ class ProductAdapter(
         // Actualiza el stock visible y el estado del botón en tiempo real
         private fun actualizarStockYBoton(product: Producto) {
             val disponible = stockDisponible(product)
-            val cantidadEnCarrito = CarritoManager.getCantidad(product.id)
 
             // ── Stock visible ─────────────────────────────────────────────────
             binding.tvStock.text = "Stock: $disponible"
@@ -105,6 +109,10 @@ class ProductAdapter(
                 disponible == 0 -> {
                     binding.btnAgregarCarrito.visibility =
                         android.view.View.GONE
+                }
+                disponible>0->{
+                    binding.btnAgregarCarrito.visibility =
+                        android.view.View.VISIBLE
                 }
             }
         }

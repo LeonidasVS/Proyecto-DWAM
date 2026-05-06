@@ -37,6 +37,7 @@ class ProductListActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -55,16 +56,14 @@ class ProductListActivity : AppCompatActivity() {
         // Click en el botón del carrito
         binding.btnCarrito.setOnClickListener {
             if (CarritoManager.estaVacio()) {
-                Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show()
+                //Nada
             } else {
                 startActivity(Intent(this, CarritoActivity::class.java))
             }
         }
-
     }
 
     // ── Configura la UI según el rol ──────────────────────────────────────────
-
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -73,36 +72,33 @@ class ProductListActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = ProductAdapter(
-            onItemClick = { product ->
+            rol           = rolActual,
+            onItemClick   = { product ->
                 if (rolActual == RolUtils.ROL_ADMIN) {
                     val intent = Intent(this, EditProductActivity::class.java).apply {
-                        putExtra("product_id", product.id)
-                        putExtra("product_name", product.name)
+                        putExtra("product_id",          product.id)
+                        putExtra("product_name",        product.name)
                         putExtra("product_description", product.description)
-                        putExtra("product_price", product.price)
-                        putExtra("product_stock", product.stock)
-                        putExtra("product_category", product.category)
+                        putExtra("product_price",       product.price)
+                        putExtra("product_stock",       product.stock)
+                        putExtra("product_category",    product.category)
                     }
                     startActivity(intent)
                 }
             },
             onAgregarCarrito = { product ->
-                // Agregar al carrito
                 CarritoManager.agregarProducto(product)
-
-                // Actualizar el badge del carrito en el toolbar
                 actualizarBadgeCarrito()
-
-                // Mensaje de confirmación
+                adapter.notifyDataSetChanged()
                 Toast.makeText(
                     this,
-                    "Producto Agregado",
+                    "Agregado al Carrito",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter       = adapter
     }
 
     // Actualiza el contador del carrito en el toolbar
@@ -154,6 +150,7 @@ class ProductListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        adapter.notifyDataSetChanged()
         viewModel.loadProducts()
         actualizarBadgeCarrito()
     }

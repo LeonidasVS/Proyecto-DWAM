@@ -69,9 +69,12 @@ class CarritoAdapter(
             // Deshabilitar btnMenos si es 1 (mínimo)
             binding.btnMenos.isEnabled = item.cantidad > 1
 
+
             binding.btnMas.setOnClickListener     { onAumentar(item) }
             binding.btnMenos.setOnClickListener   { onDisminuir(item) }
-            binding.btnEliminar.setOnClickListener { onEliminar(item) }
+            binding.btnEliminar.setOnClickListener {
+                onEliminar(item)
+            }
         }
     }
 

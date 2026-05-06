@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:padding="8dp"
+            android:layout_marginEnd="10dp"
             android:clickable="true"
             android:focusable="true">
 
@@ -111,17 +112,16 @@
                     android:gravity="center"
                     android:layout_marginTop="64dp"
                     android:visibility="gone">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🛍️"
-                        android:textSize="64sp" />
+                    <ImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:src="@drawable/ic_bolsas"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/no_products"
                         android:textColor="@color/gray_600"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
 

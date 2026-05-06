@@ -79,7 +79,7 @@ class CarritoActivity : AppCompatActivity() {
             binding.layoutEmpty.gone()
             binding.recyclerView.visible()
             binding.btnPagar.isEnabled = true
-            adapter.submitList(items.toMutableList())
+            adapter.submitList(items.map { it.copy() })
         }
 
         // Actualizar totales
@@ -89,8 +89,9 @@ class CarritoActivity : AppCompatActivity() {
 
     private fun mostrarDialogoPago() {
         AlertDialog.Builder(this)
-            .setTitle("Confirmar pago")
-            .setMessage("¿Confirmas tu compra por $${String.format("%.2f", CarritoManager.totalPagar())}?")
+            .setIcon(R.drawable.ic_credito)
+            .setTitle("¡Realizar Pago!")
+            .setMessage("¿Confirmas tu compra de $${String.format("%.2f", CarritoManager.totalPagar())}?")
             .setPositiveButton("Sí, pagar") { _, _ ->
                 procesarPago()
             }

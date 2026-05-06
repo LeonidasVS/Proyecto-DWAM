@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@color/primary_blue"
         android:paddingTop="28dp"
-        app:title="Comprobante de Pago"
+        app:title="Ticket"
         app:titleTextColor="@color/white"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
@@ -253,6 +253,6 @@
         android:layout_margin="16dp"
         app:icon="@drawable/ic_home"
         app:iconGravity="textStart"
-        android:text="Volver al inicio" />
+        android:text="Regresar" />
 
 </LinearLayout>

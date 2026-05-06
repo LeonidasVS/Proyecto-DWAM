@@ -11,10 +11,8 @@ import com.example.shopnova.Utils.CarritoManager
 import com.example.shopnova.databinding.ItemProductBinding
 
 class ProductAdapter(
-
     private val onItemClick: (Producto) -> Unit,
     private val onAgregarCarrito: (Producto) -> Unit
-
 ) : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -34,77 +32,80 @@ class ProductAdapter(
 
         fun bind(product: Producto) {
             binding.tvProductName.text = product.name
-            binding.tvCategory.text = "🏷️ ${product.category}"
+            binding.tvCategory.text    = "🏷️ ${product.category}"
             binding.tvDescription.text = product.description
-            binding.tvPrice.text = "$${String.format("%.2f", product.price)}"
-            binding.tvStock.text = "Stock: ${product.stock}"
+            binding.tvPrice.text       = "$${String.format("%.2f", product.price)}"
 
+            // Icono según categoría
             binding.ivIcon.setImageResource(when (product.category.lowercase()) {
-                "electrónica"          -> R.drawable.ic_electronica
-                "celulares"            -> R.drawable.ic_electronica
+                "electrónica"            -> R.drawable.ic_electronica
+                "celulares"              -> R.drawable.ic_electronica
                 "computadoras y laptops" -> R.drawable.ic_electronica
-                "accesorios"           -> R.drawable.ic_accesorios
-                "ropa hombre"          -> R.drawable.ic_ropa_hombre
-                "ropa mujer"           -> R.drawable.ic_ropa_mujer
-                "ropa niños"           -> R.drawable.ic_ropa_nino
-                "calzado"              -> R.drawable.ic_calzado
-                "joyería"              -> R.drawable.ic_joyeria
-                "hogar y muebles"      -> R.drawable.ic_hogar
-                "cocina y comedor"     -> R.drawable.ic_cocina
-                "herramientas"         -> R.drawable.ic_herramientas
-                "deportes"             -> R.drawable.ic_deporte
-                "fitness"              -> R.drawable.ic_fitness
-                "ropa deportiva"       -> R.drawable.ic_ropa_deportiva
-                "libros y educación"   -> R.drawable.ic_educacion
-                "juguetes"             -> R.drawable.ic_juguetes
-                "salud y belleza"      -> R.drawable.ic_salud
-                "perfumes"             -> R.drawable.ic_perfumes
-                "oficina y papelería"  -> R.drawable.ic_papeleria
-                else                   -> R.drawable.ic_otros
+                "accesorios"             -> R.drawable.ic_accesorios
+                "ropa hombre"            -> R.drawable.ic_ropa_hombre
+                "ropa mujer"             -> R.drawable.ic_ropa_mujer
+                "ropa niños"             -> R.drawable.ic_ropa_nino
+                "calzado"                -> R.drawable.ic_calzado
+                "joyería"                -> R.drawable.ic_joyeria
+                "hogar y muebles"        -> R.drawable.ic_hogar
+                "cocina y comedor"       -> R.drawable.ic_cocina
+                "herramientas"           -> R.drawable.ic_herramientas
+                "deportes"               -> R.drawable.ic_deporte
+                "fitness"                -> R.drawable.ic_fitness
+                "ropa deportiva"         -> R.drawable.ic_ropa_deportiva
+                "libros y educación"     -> R.drawable.ic_educacion
+                "juguetes"               -> R.drawable.ic_juguetes
+                "salud y belleza"        -> R.drawable.ic_salud
+                "perfumes"               -> R.drawable.ic_perfumes
+                "oficina y papelería"    -> R.drawable.ic_papeleria
+                else                     -> R.drawable.ic_otros
             })
 
-            val stockColor = when {
-                product.stock <= 5  -> binding.root.context
-                    .getColor(com.example.shopnova.R.color.error_red)
-                product.stock < 10  -> binding.root.context
-                    .getColor(com.example.shopnova.R.color.warning_orange)
-                else                -> binding.root.context
-                    .getColor(com.example.shopnova.R.color.accent_green)
-            }
-            binding.chipStock.setCardBackgroundColor(stockColor)
+            // Actualizar UI con stock disponible en tiempo real
+            actualizarStockYBoton(product)
 
-            // ── Botón agregar al carrito ──────────────────────────────────────
-            actualizarBotonCarrito(product)
-
+            // Click en botón carrito
             binding.btnAgregarCarrito.setOnClickListener {
-                if (product.stock > 0) {
+                val stockDisponible = stockDisponible(product)
+                if (stockDisponible > 0) {
                     onAgregarCarrito(product)
-                    actualizarBotonCarrito(product)
+                    // ✅ Actualiza inmediatamente sin esperar
+                    actualizarStockYBoton(product)
                 }
             }
 
             binding.root.setOnClickListener { onItemClick(product) }
         }
 
-        // Actualiza el texto y estado del botón según si ya está en el carrito
-        private fun actualizarBotonCarrito(product: Producto) {
-            if (CarritoManager.estaEnCarrito(product.id)) {
-                val cantidad = CarritoManager.getCantidad(product.id)
-                binding.btnAgregarCarrito.text = "✓ ($cantidad)"
-                binding.btnAgregarCarrito.backgroundTintList =
-                    binding.root.context.getColorStateList(R.color.accent_green)
-            } else {
-                binding.btnAgregarCarrito.text = "+ Carrito"
-                binding.btnAgregarCarrito.backgroundTintList =
-                    binding.root.context.getColorStateList(R.color.primary_blue)
-            }
+        // Calcula el stock disponible real descontando lo del carrito
+        private fun stockDisponible(product: Producto): Int {
+            val cantidadEnCarrito = CarritoManager.getCantidad(product.id)
+            return (product.stock - cantidadEnCarrito).coerceAtLeast(0)
+        }
 
-            // Deshabilitar si no hay stock
-            binding.btnAgregarCarrito.isEnabled = product.stock > 0
-            if (product.stock == 0) {
-                binding.btnAgregarCarrito.text = "Sin stock"
-                binding.btnAgregarCarrito.backgroundTintList =
-                    binding.root.context.getColorStateList(R.color.gray_400)
+        // Actualiza el stock visible y el estado del botón en tiempo real
+        private fun actualizarStockYBoton(product: Producto) {
+            val disponible = stockDisponible(product)
+            val cantidadEnCarrito = CarritoManager.getCantidad(product.id)
+
+            // ── Stock visible ─────────────────────────────────────────────────
+            binding.tvStock.text = "Stock: $disponible"
+
+            // ── Color del chip según stock disponible ─────────────────────────
+            val stockColor = when {
+                disponible == 0 -> binding.root.context.getColor(R.color.error_red)
+                disponible <= 5 -> binding.root.context.getColor(R.color.warning_orange)
+                else            -> binding.root.context.getColor(R.color.accent_green)
+            }
+            binding.chipStock.setCardBackgroundColor(stockColor)
+
+            // ── Botón carrito ─────────────────────────────────────────────────
+            when {
+                // Sin stock disponible → ocultar botón
+                disponible == 0 -> {
+                    binding.btnAgregarCarrito.visibility =
+                        android.view.View.GONE
+                }
             }
         }
     }

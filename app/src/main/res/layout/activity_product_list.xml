@@ -43,12 +43,12 @@
                 android:id="@+id/tvBadgeCarrito"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
+                android:gravity="center"
                 android:layout_gravity="top|end"
                 android:background="@drawable/badge_background"
-                android:gravity="center"
                 android:text="0"
                 android:textColor="@color/white"
-                android:textSize="9sp"
+                android:textSize="8sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
 

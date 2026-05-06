@@ -65,7 +65,7 @@ class DashboardActivity : AppCompatActivity() {
 
         binding.cardProducts.setOnClickListener {
             val intent = Intent(this, ProductListActivity::class.java).apply {
-                putExtra("rol", rolActual) // ✅ Envía el rol
+                putExtra("rol", rolActual)
             }
             startActivity(intent)
         }

@@ -96,7 +96,7 @@ class ProductListActivity : AppCompatActivity() {
                 // Mensaje de confirmación
                 Toast.makeText(
                     this,
-                    "${product.name} agregado al carrito",
+                    "Producto Agregado",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -155,5 +155,6 @@ class ProductListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.loadProducts()
+        actualizarBadgeCarrito()
     }
 }

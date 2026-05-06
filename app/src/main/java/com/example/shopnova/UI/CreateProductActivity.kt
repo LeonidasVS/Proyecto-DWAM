@@ -1,5 +1,6 @@
 package com.example.shopnova.UI
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
@@ -115,7 +116,7 @@ class CreateProductActivity : AppCompatActivity() {
                     binding.progressBar.gone()
                     showToast(getString(R.string.success_product_created))
                     viewModel.resetCreateState()
-                    finish()
+                    irListaProductos()
                 }
                 is UiState.Error -> {
                     binding.progressBar.gone()
@@ -129,6 +130,12 @@ class CreateProductActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun irListaProductos() {
+        val intent = Intent(this, ProductListActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun validarCampos(): Boolean {

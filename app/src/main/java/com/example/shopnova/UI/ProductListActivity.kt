@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopnova.R
+import com.example.shopnova.Utils.CarritoManager
 import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.gone
@@ -47,33 +50,20 @@ class ProductListActivity : AppCompatActivity() {
         setupRecyclerView()
         setupSearch()
         setupObservers()
-        configurarPorRol()
         viewModel.loadProducts()
 
-        binding.fabAdd.setOnClickListener {
-            startActivity(Intent(this, CreateProductActivity::class.java))
+        // Click en el botón del carrito
+        binding.btnCarrito.setOnClickListener {
+            if (CarritoManager.estaVacio()) {
+                Toast.makeText(this, "El carrito está vacío", Toast.LENGTH_SHORT).show()
+            } else {
+                startActivity(Intent(this, CarritoActivity::class.java))
+            }
         }
+
     }
 
     // ── Configura la UI según el rol ──────────────────────────────────────────
-    private fun configurarPorRol() {
-        when (rolActual) {
-            RolUtils.ROL_ADMIN -> {
-                // Admin puede agregar productos
-                binding.fabAdd.visible()
-                binding.fabAdd.isEnabled = true
-            }
-            RolUtils.ROL_CLIENTE -> {
-                // Cliente no puede agregar productos
-                binding.fabAdd.gone()
-                binding.fabAdd.isEnabled = false
-            }
-            else -> {
-                binding.fabAdd.gone()
-                binding.fabAdd.isEnabled = false
-            }
-        }
-    }
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
@@ -82,23 +72,45 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = ProductAdapter { product ->
-            // Solo admin puede editar productos
-            if (rolActual == RolUtils.ROL_ADMIN) {
-                val intent = Intent(this, EditProductActivity::class.java).apply {
-                    putExtra("product_id", product.id)
-                    putExtra("product_name", product.name)
-                    putExtra("product_description", product.description)
-                    putExtra("product_price", product.price)
-                    putExtra("product_stock", product.stock)
-                    putExtra("product_category", product.category)
+        adapter = ProductAdapter(
+            onItemClick = { product ->
+                if (rolActual == RolUtils.ROL_ADMIN) {
+                    val intent = Intent(this, EditProductActivity::class.java).apply {
+                        putExtra("product_id", product.id)
+                        putExtra("product_name", product.name)
+                        putExtra("product_description", product.description)
+                        putExtra("product_price", product.price)
+                        putExtra("product_stock", product.stock)
+                        putExtra("product_category", product.category)
+                    }
+                    startActivity(intent)
                 }
-                startActivity(intent)
+            },
+            onAgregarCarrito = { product ->
+                // Agregar al carrito
+                CarritoManager.agregarProducto(product)
+
+                // Actualizar el badge del carrito en el toolbar
+                actualizarBadgeCarrito()
+
+                // Mensaje de confirmación
+                Toast.makeText(
+                    this,
+                    "${product.name} agregado al carrito",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            // Cliente no hace nada al hacer click
-        }
+        )
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
+    }
+
+    // Actualiza el contador del carrito en el toolbar
+    private fun actualizarBadgeCarrito() {
+        val total = CarritoManager.totalUnidades()
+        binding.tvBadgeCarrito.text = total.toString()
+        binding.tvBadgeCarrito.visibility =
+            if (total > 0) View.VISIBLE else View.GONE
     }
 
     private fun setupSearch() {

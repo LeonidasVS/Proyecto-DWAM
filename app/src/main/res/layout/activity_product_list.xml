@@ -19,7 +19,42 @@
         android:paddingTop="28dp"
         app:title="@string/products"
         app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_arrow_back" />
+        app:navigationIcon="@drawable/ic_arrow_back">
+
+        <!-- Botón carrito con badge -->
+        <FrameLayout
+            android:id="@+id/btnCarrito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <!-- Ícono carrito -->
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_carrito"
+                app:tint="@color/white" />
+
+            <!-- Badge contador -->
+            <TextView
+                android:id="@+id/tvBadgeCarrito"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="top|end"
+                android:background="@drawable/badge_background"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilSearch"
@@ -38,9 +73,6 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- ═══════════════════════════════════ -->
-    <!-- SECCIÓN SCROLL: Cards productos    -->
-    <!-- ═══════════════════════════════════ -->
     <!-- ════════════════════════════════════════════════ -->
     <!-- SECCIÓN 2: Scroll + FAB flotante juntos         -->
     <!-- ════════════════════════════════════════════════ -->
@@ -102,18 +134,6 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <!-- FAB flotante sobre el scroll -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/add"
-            app:backgroundTint="@color/accent_green"
-            app:tint="@color/white" />
 
     </FrameLayout>
 

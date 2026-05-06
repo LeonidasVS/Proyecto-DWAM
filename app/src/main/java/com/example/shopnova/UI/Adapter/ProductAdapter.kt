@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopnova.Model.Producto
 import com.example.shopnova.R
+import com.example.shopnova.Utils.CarritoManager
 import com.example.shopnova.databinding.ItemProductBinding
 
 class ProductAdapter(
-    private val onItemClick: (Producto) -> Unit
+
+    private val onItemClick: (Producto) -> Unit,
+    private val onAgregarCarrito: (Producto) -> Unit
+
 ) : ListAdapter<Producto, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -69,7 +73,39 @@ class ProductAdapter(
             }
             binding.chipStock.setCardBackgroundColor(stockColor)
 
+            // ── Botón agregar al carrito ──────────────────────────────────────
+            actualizarBotonCarrito(product)
+
+            binding.btnAgregarCarrito.setOnClickListener {
+                if (product.stock > 0) {
+                    onAgregarCarrito(product)
+                    actualizarBotonCarrito(product)
+                }
+            }
+
             binding.root.setOnClickListener { onItemClick(product) }
+        }
+
+        // Actualiza el texto y estado del botón según si ya está en el carrito
+        private fun actualizarBotonCarrito(product: Producto) {
+            if (CarritoManager.estaEnCarrito(product.id)) {
+                val cantidad = CarritoManager.getCantidad(product.id)
+                binding.btnAgregarCarrito.text = "✓ ($cantidad)"
+                binding.btnAgregarCarrito.backgroundTintList =
+                    binding.root.context.getColorStateList(R.color.accent_green)
+            } else {
+                binding.btnAgregarCarrito.text = "+ Carrito"
+                binding.btnAgregarCarrito.backgroundTintList =
+                    binding.root.context.getColorStateList(R.color.primary_blue)
+            }
+
+            // Deshabilitar si no hay stock
+            binding.btnAgregarCarrito.isEnabled = product.stock > 0
+            if (product.stock == 0) {
+                binding.btnAgregarCarrito.text = "Sin stock"
+                binding.btnAgregarCarrito.backgroundTintList =
+                    binding.root.context.getColorStateList(R.color.gray_400)
+            }
         }
     }
 

@@ -104,16 +104,16 @@ class PerfilActivity : AppCompatActivity() {
                 }
 
                 is UiState.Error -> {
-                    // Ocultar loading y mostrar contenido con datos de Auth
                     binding.progressBar.gone()
-                    binding.progressBar.visible()
+                    binding.cardUsuario.visible()
                     binding.btnEliminarUser.visible()
+                    binding.tvAvatar.visible()
 
-                    binding.tvNombre.text      = FirebaseUtils.getCurrentUserName()
-                    binding.tvCorreo.text      = FirebaseUtils.getCurrentUserEmail()
-                    binding.tvRol.text         = "👤 Usuario"
-                    binding.tvFecha.text       = "No disponible"
-                    binding.tvAvatar.text      = "U"
+                    binding.tvNombre.text       = FirebaseUtils.getCurrentUserName()
+                    binding.tvCorreo.text       = FirebaseUtils.getCurrentUserEmail()
+                    binding.tvRol.text          = "👤 Usuario"
+                    binding.tvFecha.text        = "No disponible"
+                    binding.tvAvatar.text       = "U"
                     binding.tvNombreHeader.text = FirebaseUtils.getCurrentUserName()
                 }
 

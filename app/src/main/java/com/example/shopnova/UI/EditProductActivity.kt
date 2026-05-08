@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopnova.Model.Producto
 import com.example.shopnova.R
+import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.ValidationUtils
 import com.example.shopnova.Utils.gone
@@ -62,17 +63,20 @@ class EditProductActivity : AppCompatActivity() {
             insets
         }
 
+        val rol = intent.getStringExtra("rol") ?: RolUtils.ROL_CLIENTE
+        if (rol != RolUtils.ROL_ADMIN) {
+            finish() // Si no es admin cierra inmediatamente
+            return
+        }
+
         setupToolbar()
         setupCategoryDropdown()
         cargarDatosDelIntent()
         setupObservers()
 
         binding.btnUpdate.setOnClickListener {
-            if (validarCampos()) {
-                actualizarProducto()
-            }
+            if (validarCampos()) actualizarProducto()
         }
-
         binding.btnDelete.setOnClickListener {
             mostrarDialogoEliminar()
         }
@@ -98,7 +102,7 @@ class EditProductActivity : AppCompatActivity() {
         }
     }
 
-    // Carga los datos del intent y preselecciona la categoría en el dropdown
+    // Carga los datos del intent y preselecciona la categoia en el dropdown
     private fun cargarDatosDelIntent() {
         intent?.let {
             productId = it.getStringExtra("product_id") ?: ""

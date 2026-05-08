@@ -13,7 +13,7 @@ class ProductViewModel : ViewModel() {
 
     private val repository = ProductRepository()
 
-    // ── Estados observables ───────────────────────────────────────────────────
+    // Estados observables
 
     private val _productsState = MutableLiveData<UiState<List<Producto>>>(UiState.Idle)
     val productsState: LiveData<UiState<List<Producto>>> = _productsState
@@ -33,7 +33,7 @@ class ProductViewModel : ViewModel() {
     // Cache local para búsqueda sin llamadas extra a Firebase
     private var allProducts: List<Producto> = emptyList()
 
-    // ── Acciones ──────────────────────────────────────────────────────────────
+    // Cargar Productos
 
     fun loadProducts() {
         _productsState.value = UiState.Loading

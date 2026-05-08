@@ -48,11 +48,17 @@ class DashboardActivity : AppCompatActivity() {
         productViewModel.loadProductCount()
 
         binding.cardProducts.setOnClickListener {
-            startActivity(Intent(this, ProductListActivity::class.java))
+            val intent = Intent(this, ProductListActivity::class.java).apply {
+                putExtra("rol", rolActual)
+            }
+            startActivity(intent)
         }
 
         binding.cardAddProduct.setOnClickListener {
-            startActivity(Intent(this, CreateProductActivity::class.java))
+            val intent = Intent(this, CreateProductActivity::class.java).apply {
+                putExtra("rol", rolActual)
+            }
+            startActivity(intent)
         }
 
         binding.cardPerfilUsuario.setOnClickListener {
@@ -61,13 +67,6 @@ class DashboardActivity : AppCompatActivity() {
 
         binding.cardLogout.setOnClickListener {
             mostrarDialogoCerrarSesion()
-        }
-
-        binding.cardProducts.setOnClickListener {
-            val intent = Intent(this, ProductListActivity::class.java).apply {
-                putExtra("rol", rolActual)
-            }
-            startActivity(intent)
         }
     }
 

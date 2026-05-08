@@ -1,6 +1,7 @@
 package com.shopnova.UI.Adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -28,9 +29,6 @@ class ProductAdapter(
         holder.bind(getItem(position))
     }
 
-    private var rolActual: String = ""
-
-
     inner class ProductViewHolder(
         private val binding: ItemProductBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -43,8 +41,8 @@ class ProductAdapter(
 
             // Icono según categoría
             binding.ivIcon.setImageResource(when (product.category.lowercase()) {
-                "electrónica"            -> R.drawable.ic_electronica
-                "celulares"              -> R.drawable.ic_electronica
+                "electrónica",
+                "celulares",
                 "computadoras y laptops" -> R.drawable.ic_electronica
                 "accesorios"             -> R.drawable.ic_accesorios
                 "ropa hombre"            -> R.drawable.ic_ropa_hombre
@@ -66,15 +64,13 @@ class ProductAdapter(
                 else                     -> R.drawable.ic_otros
             })
 
-            // Actualizar UI con stock disponible en tiempo real
+            // Actualizar stock y botón según rol
             actualizarStockYBoton(product)
 
-            // Click en botón carrito
+            // Click botón carrito
             binding.btnAgregarCarrito.setOnClickListener {
-                val stockDisponible = stockDisponible(product)
-                if (stockDisponible > 0) {
+                if (stockDisponible(product) > 0) {
                     onAgregarCarrito(product)
-                    // ✅ Actualiza inmediatamente sin esperar
                     actualizarStockYBoton(product)
                 }
             }
@@ -82,20 +78,20 @@ class ProductAdapter(
             binding.root.setOnClickListener { onItemClick(product) }
         }
 
-        // Calcula el stock disponible real descontando lo del carrito
+        // Stock real descontando lo que ya está en carrito
         private fun stockDisponible(product: Producto): Int {
-            val cantidadEnCarrito = CarritoManager.getCantidad(product.id)
-            return (product.stock - cantidadEnCarrito).coerceAtLeast(0)
+            val enCarrito = CarritoManager.getCantidad(product.id)
+            return (product.stock - enCarrito).coerceAtLeast(0)
         }
 
-        // Actualiza el stock visible y el estado del botón en tiempo real
         private fun actualizarStockYBoton(product: Producto) {
-            val disponible = stockDisponible(product)
+            val disponible        = stockDisponible(product)
+            val cantidadEnCarrito = CarritoManager.getCantidad(product.id)
 
             // ── Stock visible ─────────────────────────────────────────────────
             binding.tvStock.text = "Stock: $disponible"
 
-            // ── Color del chip según stock disponible ─────────────────────────
+            // ── Color chip de stock ───────────────────────────────────────────
             val stockColor = when {
                 disponible == 0 -> binding.root.context.getColor(R.color.error_red)
                 disponible <= 5 -> binding.root.context.getColor(R.color.warning_orange)
@@ -103,16 +99,30 @@ class ProductAdapter(
             }
             binding.chipStock.setCardBackgroundColor(stockColor)
 
-            // ── Botón carrito ─────────────────────────────────────────────────
+            // ── Botón carrito solo para CLIENTE ──────────────────────────────
+            if (rol != RolUtils.ROL_CLIENTE) {
+                // Admin y otros roles NO ven el botón
+                binding.btnAgregarCarrito.visibility = View.GONE
+                return
+            }
+
+            // Lógica del botón para clientes
             when {
-                // Sin stock disponible → ocultar botón
                 disponible == 0 -> {
-                    binding.btnAgregarCarrito.visibility =
-                        android.view.View.GONE
+                    // Sin stock → ocultar botón
+                    binding.btnAgregarCarrito.visibility = View.GONE
                 }
-                disponible>0->{
-                    binding.btnAgregarCarrito.visibility =
-                        android.view.View.VISIBLE
+                cantidadEnCarrito > 0 -> {
+                    // Ya tiene en carrito → verde con cantidad
+                    binding.btnAgregarCarrito.visibility = View.VISIBLE
+                    binding.btnAgregarCarrito.backgroundTintList =
+                        binding.root.context.getColorStateList(R.color.accent_green)
+                }
+                else -> {
+                    // Stock disponible → azul
+                    binding.btnAgregarCarrito.visibility = View.VISIBLE
+                    binding.btnAgregarCarrito.backgroundTintList =
+                        binding.root.context.getColorStateList(R.color.primary_blue)
                 }
             }
         }

@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopnova.Model.Producto
 import com.example.shopnova.R
+import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.ValidationUtils
 import com.example.shopnova.Utils.gone
@@ -22,6 +23,8 @@ import com.example.shopnova.databinding.ActivityCreateProductBinding
 class CreateProductActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateProductBinding
+    private var rolActual: String = ""
+
     private val viewModel: ProductViewModel by viewModels()
 
     // Lista de categorías disponibles
@@ -62,14 +65,20 @@ class CreateProductActivity : AppCompatActivity() {
             insets
         }
 
+        rolActual = intent.getStringExtra("rol") ?: RolUtils.ROL_ADMIN
+
+        // Verificar que solo Admin puede crear
+        if (rolActual != RolUtils.ROL_ADMIN) {
+            finish()
+            return
+        }
+
         setupToolbar()
         setupCategoryDropdown()
         setupObservers()
 
         binding.btnSave.setOnClickListener {
-            if (validarCampos()) {
-                guardarProducto()
-            }
+            if (validarCampos()) guardarProducto()
         }
     }
 
@@ -79,7 +88,7 @@ class CreateProductActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
-    // Configura el dropdown de categorías
+    // Configura el dropdown de categorias
     private fun setupCategoryDropdown() {
         val adapter = ArrayAdapter(
             this,
@@ -133,7 +142,9 @@ class CreateProductActivity : AppCompatActivity() {
     }
 
     private fun irListaProductos() {
-        val intent = Intent(this, ProductListActivity::class.java)
+        val intent = Intent(this, ProductListActivity::class.java).apply {
+            putExtra("rol", rolActual)
+        }
         startActivity(intent)
         finish()
     }

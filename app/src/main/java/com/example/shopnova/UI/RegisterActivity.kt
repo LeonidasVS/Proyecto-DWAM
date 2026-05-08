@@ -46,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         setupRolesDropdown()
 
         binding.btnRegister.setOnClickListener {
-            // ✅ Solo procesa si los campos son válidos
+            // Solo procesa si los campos son validos
             if (validarCampos()) {
                 procesarRegistro()
             }
@@ -57,7 +57,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    // ── Procesa el registro según el rol ──────────────────────────────────────
+    // Procesa el registro segun el rol
     private fun procesarRegistro() {
         val nombre   = binding.etName.text.toString().trim()
         val email    = binding.etEmail.text.toString().trim()
@@ -71,11 +71,11 @@ class RegisterActivity : AppCompatActivity() {
 
             RolUtils.verificarLimiteAdmins(
                 onPermitido = {
-                    // ✅ Hay espacio, proceder con el registro
+                    // Hay espacio, proceder con el registro
                     viewModel.register(nombre, email, role, password)
                 },
                 onLimitAlcanzado = {
-                    // ❌ Ya hay 3 admins
+                    // Ya hay 3 admins
                     binding.progressBar.gone()
                     binding.btnRegister.isEnabled = true
                     binding.tiltRole.error =
@@ -166,7 +166,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.tilConfirmPassword.error = getString(R.string.passwords_not_match)
             isValid = false
         }
-        // ✅ Validar que se haya seleccionado un rol
+        // Validar que se haya seleccionado un rol
         if (!ValidationUtils.isNotEmpty(role)) {
             binding.tiltRole.error = getString(R.string.field_required)
             isValid = false

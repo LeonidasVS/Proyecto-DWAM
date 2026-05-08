@@ -37,37 +37,50 @@ class ProductListActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Obtener el rol enviado desde DashboardActivity
+
         rolActual = intent.getStringExtra("rol") ?: RolUtils.ROL_CLIENTE
 
         setupToolbar()
         setupRecyclerView()
         setupSearch()
         setupObservers()
+        configurarPorRol()
         viewModel.loadProducts()
 
-        // Click en el botón del carrito
         binding.btnCarrito.setOnClickListener {
-            if (CarritoManager.estaVacio()) {
-                //Nada
-            } else {
+            if (!CarritoManager.estaVacio()) {
                 startActivity(Intent(this, CarritoActivity::class.java))
             }
         }
     }
 
-    // ── Configura la UI según el rol ──────────────────────────────────────────
+
+    // Configura la UI segun el rol
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener { finish() }
+    }
+
+    private fun configurarPorRol() {
+        when (rolActual) {
+            RolUtils.ROL_ADMIN -> {
+                // Admin: FAB visible, sin carrito
+                CarritoManager.limpiarCarrito()
+                binding.btnCarrito.visibility = android.view.View.GONE
+                binding.tvBadgeCarrito.visibility = android.view.View.GONE
+            }
+            RolUtils.ROL_CLIENTE -> {
+                // Cliente: sin FAB, con carrito
+                binding.btnCarrito.visibility = android.view.View.VISIBLE
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -76,6 +89,7 @@ class ProductListActivity : AppCompatActivity() {
             onItemClick   = { product ->
                 if (rolActual == RolUtils.ROL_ADMIN) {
                     val intent = Intent(this, EditProductActivity::class.java).apply {
+                        putExtra("rol",                 rolActual)
                         putExtra("product_id",          product.id)
                         putExtra("product_name",        product.name)
                         putExtra("product_description", product.description)

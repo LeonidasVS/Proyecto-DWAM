@@ -41,19 +41,12 @@ class TicketActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        setupToolbar()
         mostrarTicket()
         descontarStock()
 
         binding.btnVolverInicio.setOnClickListener {
             irInicio()
         }
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     private fun mostrarTicket() {

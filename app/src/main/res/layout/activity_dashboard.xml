@@ -183,8 +183,8 @@
                         app:cardCornerRadius="14dp"
                         app:cardBackgroundColor="@color/primary_blue">
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_user" />
                     </androidx.cardview.widget.CardView>
@@ -249,8 +249,8 @@
                         app:cardCornerRadius="14dp"
                         app:cardBackgroundColor="@color/primary_blue">
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_box" />
                     </androidx.cardview.widget.CardView>
@@ -317,10 +317,10 @@
                         app:cardCornerRadius="14dp"
                         app:cardBackgroundColor="@color/primary_blue">
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/add" />
+                            android:src="@drawable/ic_addbox" />
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout
@@ -382,10 +382,10 @@
                         app:cardCornerRadius="14dp"
                         app:cardBackgroundColor="@color/error_red">
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/logout" />
+                            android:src="@drawable/ic_logout" />
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout

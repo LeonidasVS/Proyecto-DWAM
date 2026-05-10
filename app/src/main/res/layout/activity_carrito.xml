@@ -142,10 +142,12 @@
                 android:id="@+id/btnPagar"
                 style="@style/ShopNova.Button.Primary"
                 android:layout_width="match_parent"
-                app:icon="@drawable/ic_card"
-                app:iconGravity="textStart"
                 android:layout_height="wrap_content"
-                android:text="Cancelar Compra" />
+                android:text="Cancelar Compra"
+                app:icon="@drawable/ic_credito"
+                app:iconSize="20dp"
+                app:iconGravity="textEnd"
+                app:iconTint="@null"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

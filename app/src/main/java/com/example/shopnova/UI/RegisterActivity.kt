@@ -3,6 +3,7 @@ package com.example.shopnova.UI
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import com.example.shopnova.Utils.showToast
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.databinding.ActivityRegisterBinding
+import es.dmoral.toasty.Toasty
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -110,7 +112,12 @@ class RegisterActivity : AppCompatActivity() {
                 is UiState.Success -> {
                     binding.progressBar.gone()
                     binding.btnRegister.isEnabled = true
-                    showToast(getString(R.string.success_register))
+                    Toasty.success(
+                        this,
+                        getString(R.string.success_register),
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
                     viewModel.resetRegisterState()
                     irDashboard()
                 }

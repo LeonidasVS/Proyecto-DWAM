@@ -120,17 +120,6 @@
                         android:imeOptions="actionDone" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/tvForgotPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:fontFamily="@font/poppins_extralight"
-                    android:layout_marginTop="8dp"
-                    android:includeFontPadding="false"
-                    android:text="@string/forgot_password"
-                    android:textColor="@color/primary_blue"
-                    android:textSize="11sp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogin"

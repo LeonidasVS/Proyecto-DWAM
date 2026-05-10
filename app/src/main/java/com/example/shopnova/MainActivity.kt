@@ -17,6 +17,8 @@ import com.example.shopnova.Utils.showToast
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.databinding.ActivityMainBinding
+import android.widget.Toast
+import es.dmoral.toasty.Toasty
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,9 +57,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
-        binding.tvForgotPassword.setOnClickListener {
-            showToast("Función de recuperación próximamente")
-        }
     }
 
     private fun setupObservers(){
@@ -67,17 +66,28 @@ class MainActivity : AppCompatActivity() {
                    binding.progressBar.visible()
                     binding.btnLogin.isEnabled=false
                 }
-                is UiState.Success ->{
+                is UiState.Success -> {
                     binding.progressBar.gone()
                     binding.btnLogin.isEnabled = true
-                    showToast(getString(R.string.success_login))
+                    Toasty.success(
+                        this,
+                        getString(R.string.success_login),
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
                     viewModel.resetLoginState()
                     irDashboard()
                 }
-                is UiState.Error ->{
+
+                is UiState.Error -> {
                     binding.progressBar.gone()
                     binding.btnLogin.isEnabled = true
-                    binding.root.showSnackbarError(state.message)
+                    Toasty.error(
+                        this,
+                        getString(R.string.login_failure),
+                        Toast.LENGTH_LONG,
+                        true
+                    ).show()
                     viewModel.resetLoginState()
                 }
                 else ->{

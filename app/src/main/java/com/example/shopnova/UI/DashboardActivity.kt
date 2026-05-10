@@ -2,15 +2,14 @@ package com.example.shopnova.UI
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopnova.MainActivity
 import com.example.shopnova.R
+import com.example.shopnova.Utils.DialogHelper
 import com.example.shopnova.Utils.FirebaseUtils
 import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
@@ -19,6 +18,7 @@ import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.Viewmodel.ProductViewModel
 import com.example.shopnova.databinding.ActivityDashboardBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -133,16 +133,13 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoCerrarSesion() {
-        AlertDialog.Builder(this)
-            .setIcon(R.drawable.logout2)
-            .setTitle("Cerrar Sesión")
-            .setMessage("¿Estás seguro que deseas cerrar sesión?")
-            .setPositiveButton("Sí") { _, _ ->
+        DialogHelper.mostrarConfirmacionLogout(
+          this,
+         {
                 autViewModel.logout()
                 irLogin()
             }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        )
     }
 
     private fun irLogin() {

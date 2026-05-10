@@ -64,6 +64,12 @@ class ProductAdapter(
                 else                     -> R.drawable.ic_otros
             })
 
+            if(rol== RolUtils.ROL_CLIENTE){
+                binding.root.foreground   = null
+                binding.root.isClickable  = false
+                binding.root.isFocusable  = false
+            }
+
             // Actualizar stock y botón según rol
             actualizarStockYBoton(product)
 
@@ -100,7 +106,7 @@ class ProductAdapter(
             binding.chipStock.setCardBackgroundColor(stockColor)
 
             // ── Botón carrito solo para CLIENTE ──────────────────────────────
-            if (rol != RolUtils.ROL_CLIENTE) {
+            if (rol == RolUtils.ROL_ADMIN) {
                 // Admin y otros roles NO ven el botón
                 binding.btnAgregarCarrito.visibility = View.GONE
                 return

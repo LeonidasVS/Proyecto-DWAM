@@ -21,6 +21,7 @@ import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.ProductViewModel
 import com.example.shopnova.databinding.ActivityProductListBinding
 import com.shopnova.UI.Adapter.ProductAdapter
+import es.dmoral.toasty.Toasty
 
 class ProductListActivity : AppCompatActivity() {
 
@@ -104,10 +105,11 @@ class ProductListActivity : AppCompatActivity() {
                 CarritoManager.agregarProducto(product)
                 actualizarBadgeCarrito()
                 adapter.notifyDataSetChanged()
-                Toast.makeText(
+                Toasty.success(
                     this,
-                    "Agregado al Carrito",
-                    Toast.LENGTH_SHORT
+                    getString(R.string.add_cart),
+                    Toast.LENGTH_SHORT,
+                    true
                 ).show()
             }
         )

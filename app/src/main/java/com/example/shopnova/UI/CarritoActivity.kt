@@ -8,12 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.shopnova.R
 import com.example.shopnova.Utils.CarritoManager
 import com.example.shopnova.Utils.gone
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.UI.Adapter.CarritoAdapter
+import com.example.shopnova.Utils.DialogHelper
 import com.example.shopnova.databinding.ActivityCarritoBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class CarritoActivity : AppCompatActivity() {
 
@@ -88,15 +91,12 @@ class CarritoActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoPago() {
-        AlertDialog.Builder(this)
-            .setIcon(R.drawable.ic_credito)
-            .setTitle("¡Realizar Pago!")
-            .setMessage("¿Confirmas tu compra de $${String.format("%.2f", CarritoManager.totalPagar())}?")
-            .setPositiveButton("Sí, pagar") { _, _ ->
-                procesarPago()
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
+        val montoFormateado = String.format("%.2f", CarritoManager.totalPagar())
+
+        // Llamamos a nuestra utilidad
+        DialogHelper.mostrarConfirmacionCompra(this, montoFormateado) {
+            procesarPago()
+        }
     }
 
     private fun procesarPago() {

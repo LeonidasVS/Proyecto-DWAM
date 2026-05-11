@@ -23,6 +23,14 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+//importaciones para el ticket
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
+import android.os.Environment
+import com.example.shopnova.Utils.showToast
+import java.io.File
+import java.io.FileOutputStream
+
 class TicketActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTicketBinding
@@ -46,6 +54,10 @@ class TicketActivity : AppCompatActivity() {
 
         binding.btnVolverInicio.setOnClickListener {
             irInicio()
+        }
+
+        binding.btnGuardarPdf.setOnClickListener {
+            generarPDF()
         }
     }
 
@@ -99,5 +111,90 @@ class TicketActivity : AppCompatActivity() {
         val intent = Intent(this, DashboardActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+    }
+
+
+
+    private fun generarPDF() {
+
+        try {
+
+            val pdfDocument = PdfDocument()
+            val paint = Paint()
+
+            val pageInfo = PdfDocument.PageInfo.Builder(300, 600, 1).create()
+            val page = pdfDocument.startPage(pageInfo)
+
+            val canvas = page.canvas
+
+            var y = 50
+
+            paint.textSize = 18f
+            canvas.drawText("Ticket ShopNova", 80f, y.toFloat(), paint)
+
+            y += 40
+
+            paint.textSize = 12f
+
+            canvas.drawText(binding.tvNumeroOrden.text.toString(), 20f, y.toFloat(), paint)
+            y += 20
+
+            canvas.drawText(binding.tvFechaHora.text.toString(), 20f, y.toFloat(), paint)
+            y += 30
+
+            val items = CarritoManager.getItems()
+
+            for (item in items) {
+
+                canvas.drawText(
+                    "${item.producto.name} x${item.cantidad}",
+                    20f,
+                    y.toFloat(),
+                    paint
+                )
+
+                y += 20
+            }
+
+            y += 20
+
+            canvas.drawText(
+                "Total: ${binding.tvTotalPagado.text}",
+                20f,
+                y.toFloat(),
+                paint
+            )
+
+            pdfDocument.finishPage(page)
+
+            // Carpeta privada de la app
+            val carpeta = File(getExternalFilesDir(null), "ShopNova")
+
+            if (!carpeta.exists()) {
+                carpeta.mkdirs()
+            }
+
+            val archivo = File(
+                carpeta,
+                "ticket_${System.currentTimeMillis()}.pdf"
+            )
+
+            val outputStream = FileOutputStream(archivo)
+
+            pdfDocument.writeTo(outputStream)
+
+            outputStream.flush()
+            outputStream.close()
+
+            pdfDocument.close()
+
+            showToast("PDF guardado:\n${archivo.absolutePath}")
+
+        } catch (e: Exception) {
+
+            e.printStackTrace()
+
+            showToast("Error al generar PDF: ${e.message}")
+        }
     }
 }

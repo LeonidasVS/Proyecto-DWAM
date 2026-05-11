@@ -5,7 +5,7 @@ object ValidationUtils {
         android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     fun isValidPassword(password: String): Boolean =
-        password.length >= 6
+        password.length >= 5
 
     fun isNotEmpty(text: String): Boolean =
         text.trim().isNotEmpty()
@@ -17,5 +17,5 @@ object ValidationUtils {
         try { stock.toInt() >= 0 } catch (e: NumberFormatException) { false }
 
     fun isValidName(name: String): Boolean =
-        name.length <= 20
+        name.length <= 75
 }

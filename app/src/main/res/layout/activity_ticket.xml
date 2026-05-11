@@ -242,6 +242,14 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGuardarPdf"
+        style="@style/ShopNova.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Guardar Ticket PDF"/>
+
     <!-- Botón volver al inicio -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVolverInicio"

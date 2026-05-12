@@ -95,16 +95,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Productos:"
-                    android:textColor="@color/gray_600"
-                    android:textSize="14sp" />
+                    android:textColor="@color/gray_800"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/tvTotalProductos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 items"
-                    android:textColor="@color/gray_800"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/gray_600"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <View
@@ -125,7 +125,7 @@
                     android:layout_weight="1"
                     android:text="Total a pagar:"
                     android:textColor="@color/gray_800"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvTotal"
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:text="$0.00"
                     android:textColor="@color/primary_blue"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -143,9 +143,10 @@
                 style="@style/ShopNova.Button.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancelar Compra"
+                android:text="Realizar Pago"
                 app:icon="@drawable/ic_credito"
                 app:iconSize="20dp"
+                android:padding="5dp"
                 app:iconGravity="textEnd"
                 app:iconTint="@null"/>
 

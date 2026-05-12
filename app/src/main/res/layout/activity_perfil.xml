@@ -111,10 +111,10 @@
               app:cardCornerRadius="10dp"
               app:cardBackgroundColor="@color/primary_blue_light">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_name"/>
+                android:src="@drawable/ic_user"/>
           </androidx.cardview.widget.CardView>
 
           <LinearLayout
@@ -165,8 +165,8 @@
               app:cardCornerRadius="10dp"
               app:cardBackgroundColor="@color/primary_blue_light">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_email"/>
           </androidx.cardview.widget.CardView>
@@ -218,8 +218,8 @@
               app:cardCornerRadius="10dp"
               app:cardBackgroundColor="@color/primary_blue_light">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_rol"/>
           </androidx.cardview.widget.CardView>
@@ -270,8 +270,8 @@
               app:cardCornerRadius="10dp"
               app:cardBackgroundColor="@color/primary_blue_light">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_date"/>
           </androidx.cardview.widget.CardView>

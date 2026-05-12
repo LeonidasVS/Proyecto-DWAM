@@ -3,6 +3,7 @@ package com.example.shopnova.UI
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import com.example.shopnova.Utils.showToast
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.databinding.ActivityRegisterBinding
+import es.dmoral.toasty.Toasty
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -46,7 +48,7 @@ class RegisterActivity : AppCompatActivity() {
         setupRolesDropdown()
 
         binding.btnRegister.setOnClickListener {
-            // ✅ Solo procesa si los campos son válidos
+            // Solo procesa si los campos son validos
             if (validarCampos()) {
                 procesarRegistro()
             }
@@ -57,7 +59,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    // ── Procesa el registro según el rol ──────────────────────────────────────
+    // Procesa el registro segun el rol
     private fun procesarRegistro() {
         val nombre   = binding.etName.text.toString().trim()
         val email    = binding.etEmail.text.toString().trim()
@@ -71,11 +73,11 @@ class RegisterActivity : AppCompatActivity() {
 
             RolUtils.verificarLimiteAdmins(
                 onPermitido = {
-                    // ✅ Hay espacio, proceder con el registro
+                    // Hay espacio, proceder con el registro
                     viewModel.register(nombre, email, role, password)
                 },
                 onLimitAlcanzado = {
-                    // ❌ Ya hay 3 admins
+                    // Ya hay 3 admins
                     binding.progressBar.gone()
                     binding.btnRegister.isEnabled = true
                     binding.tiltRole.error =
@@ -110,7 +112,12 @@ class RegisterActivity : AppCompatActivity() {
                 is UiState.Success -> {
                     binding.progressBar.gone()
                     binding.btnRegister.isEnabled = true
-                    showToast(getString(R.string.success_register))
+                    Toasty.success(
+                        this,
+                        getString(R.string.success_register),
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
                     viewModel.resetRegisterState()
                     irDashboard()
                 }
@@ -166,7 +173,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.tilConfirmPassword.error = getString(R.string.passwords_not_match)
             isValid = false
         }
-        // ✅ Validar que se haya seleccionado un rol
+        // Validar que se haya seleccionado un rol
         if (!ValidationUtils.isNotEmpty(role)) {
             binding.tiltRole.error = getString(R.string.field_required)
             isValid = false

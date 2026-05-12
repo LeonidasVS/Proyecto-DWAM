@@ -14,8 +14,7 @@ class AuthViewModel : ViewModel() {
 
     private val repository = AuthRepository()
 
-    // ── Estados observables ───────────────────────────────────────────────────
-
+    // Estados observables
     private val _loginState = MutableLiveData<UiState<FirebaseUser>>(UiState.Idle)
     val loginState: LiveData<UiState<FirebaseUser>> = _loginState
 
@@ -25,13 +24,8 @@ class AuthViewModel : ViewModel() {
     private val _userDataState = MutableLiveData<UiState<User>>(UiState.Idle)
     val userDataState: LiveData<UiState<User>> = _userDataState
 
-    private val _updateUserState = MutableLiveData<UiState<Unit>>(UiState.Idle)
-    val updateUserState: LiveData<UiState<Unit>> = _updateUserState
-
     private val _deleteUserState = MutableLiveData<UiState<Unit>>(UiState.Idle)
     val deleteUserState: LiveData<UiState<Unit>> = _deleteUserState
-
-    // ── Acciones ──────────────────────────────────────────────────────────────
 
     // LOGIN
     fun login(email: String, password: String) {
@@ -57,14 +51,6 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    // ACTUALIZAR nombre del usuario
-    fun updateUser(uid: String, name: String) {
-        _updateUserState.value = UiState.Loading
-        viewModelScope.launch {
-            _updateUserState.value = repository.updateUser(uid, name)
-        }
-    }
-
     // ELIMINAR cuenta del usuario
     fun deleteUser(uid: String) {
         _deleteUserState.value = UiState.Loading
@@ -78,6 +64,5 @@ class AuthViewModel : ViewModel() {
 
     fun resetLoginState()      { _loginState.value      = UiState.Idle }
     fun resetRegisterState()   { _registerState.value   = UiState.Idle }
-    fun resetUpdateUserState() { _updateUserState.value = UiState.Idle }
     fun resetDeleteUserState() { _deleteUserState.value = UiState.Idle }
 }

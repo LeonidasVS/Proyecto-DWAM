@@ -1,7 +1,9 @@
 package com.example.shopnova.UI
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopnova.Model.Producto
 import com.example.shopnova.R
+import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.ValidationUtils
 import com.example.shopnova.Utils.gone
@@ -17,10 +20,13 @@ import com.example.shopnova.Utils.showToast
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.ProductViewModel
 import com.example.shopnova.databinding.ActivityCreateProductBinding
+import es.dmoral.toasty.Toasty
 
 class CreateProductActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateProductBinding
+    private var rolActual: String = ""
+
     private val viewModel: ProductViewModel by viewModels()
 
     // Lista de categorías disponibles
@@ -61,14 +67,20 @@ class CreateProductActivity : AppCompatActivity() {
             insets
         }
 
+        rolActual = intent.getStringExtra("rol") ?: RolUtils.ROL_ADMIN
+
+        // Verificar que solo Admin puede crear
+        if (rolActual != RolUtils.ROL_ADMIN) {
+            finish()
+            return
+        }
+
         setupToolbar()
         setupCategoryDropdown()
         setupObservers()
 
         binding.btnSave.setOnClickListener {
-            if (validarCampos()) {
-                guardarProducto()
-            }
+            if (validarCampos()) guardarProducto()
         }
     }
 
@@ -78,7 +90,7 @@ class CreateProductActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
-    // Configura el dropdown de categorías
+    // Configura el dropdown de categorias
     private fun setupCategoryDropdown() {
         val adapter = ArrayAdapter(
             this,
@@ -113,14 +125,24 @@ class CreateProductActivity : AppCompatActivity() {
                 }
                 is UiState.Success -> {
                     binding.progressBar.gone()
-                    showToast(getString(R.string.success_product_created))
+                    Toasty.success(
+                        this,
+                        getString(R.string.success_product_created),
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
                     viewModel.resetCreateState()
-                    finish()
+                    irListaProductos()
                 }
                 is UiState.Error -> {
                     binding.progressBar.gone()
                     binding.btnSave.isEnabled = true
-                    binding.root.showSnackbarError(state.message)
+                    Toasty.error(
+                        this,
+                        getString(R.string.error_product_created),
+                        Toast.LENGTH_LONG,
+                        true
+                    ).show()
                     viewModel.resetCreateState()
                 }
                 else -> {
@@ -129,6 +151,14 @@ class CreateProductActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun irListaProductos() {
+        val intent = Intent(this, ProductListActivity::class.java).apply {
+            putExtra("rol", rolActual)
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun validarCampos(): Boolean {

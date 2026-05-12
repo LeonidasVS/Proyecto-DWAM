@@ -2,22 +2,27 @@ package com.example.shopnova.UI
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+
 import com.example.shopnova.Model.Producto
 import com.example.shopnova.R
+import com.example.shopnova.Utils.DialogHelper
+import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.ValidationUtils
 import com.example.shopnova.Utils.gone
 import com.example.shopnova.Utils.showSnackbarError
-import com.example.shopnova.Utils.showToast
+
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.ProductViewModel
 import com.example.shopnova.databinding.ActivityEditProductBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import es.dmoral.toasty.Toasty
 
 class EditProductActivity : AppCompatActivity() {
 
@@ -62,17 +67,20 @@ class EditProductActivity : AppCompatActivity() {
             insets
         }
 
+        val rol = intent.getStringExtra("rol") ?: RolUtils.ROL_CLIENTE
+        if (rol != RolUtils.ROL_ADMIN) {
+            finish() // Si no es admin cierra inmediatamente
+            return
+        }
+
         setupToolbar()
         setupCategoryDropdown()
         cargarDatosDelIntent()
         setupObservers()
 
         binding.btnUpdate.setOnClickListener {
-            if (validarCampos()) {
-                actualizarProducto()
-            }
+            if (validarCampos()) actualizarProducto()
         }
-
         binding.btnDelete.setOnClickListener {
             mostrarDialogoEliminar()
         }
@@ -98,7 +106,7 @@ class EditProductActivity : AppCompatActivity() {
         }
     }
 
-    // Carga los datos del intent y preselecciona la categoría en el dropdown
+    // Carga los datos del intent y preselecciona la categoia en el dropdown
     private fun cargarDatosDelIntent() {
         intent?.let {
             productId = it.getStringExtra("product_id") ?: ""
@@ -126,15 +134,12 @@ class EditProductActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoEliminar() {
-        AlertDialog.Builder(this)
-            .setIcon(R.drawable.ic_advertencia)
-            .setTitle(getString(R.string.confirm_delete))
-            .setMessage(getString(R.string.delete_message))
-            .setPositiveButton("Eliminar") { _, _ ->
+        DialogHelper.mostrarConfirmacionBorrarProducto(
+            this,
+            {
                 viewModel.deleteProduct(productId)
             }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
+        )
     }
 
     private fun setupObservers() {
@@ -146,7 +151,12 @@ class EditProductActivity : AppCompatActivity() {
                 }
                 is UiState.Success -> {
                     binding.progressBar.gone()
-                    showToast(getString(R.string.success_product_updated))
+                    Toasty.success(
+                        this,
+                        getString(R.string.success_product_updated),
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
                     viewModel.resetUpdateState()
                     finish()
                 }
@@ -171,7 +181,12 @@ class EditProductActivity : AppCompatActivity() {
                 }
                 is UiState.Success -> {
                     binding.progressBar.gone()
-                    showToast(getString(R.string.success_product_deleted))
+                    Toasty.success(
+                        this,
+                        getString(R.string.success_product_deleted),
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
                     viewModel.resetDeleteState()
                     finish()
                 }

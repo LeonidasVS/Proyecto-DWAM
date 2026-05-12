@@ -7,12 +7,12 @@ import com.google.firebase.database.ValueEventListener
 
 object RolUtils {
 
-    // ── Roles disponibles ─────────────────────────────────────────────────────
+    // Roles disponibles
     const val ROL_ADMIN   = "administrador"
     const val ROL_CLIENTE = "cliente"
     const val MAX_ADMINS  = 3
 
-    // ── Formato visual del rol ────────────────────────────────────────────────
+    // Formato visual del rol
     fun formatearRol(rol: String): String {
         return when (rol.lowercase()) {
             ROL_ADMIN   -> "Admin"
@@ -21,7 +21,7 @@ object RolUtils {
         }
     }
 
-    // ── Configura visibilidad de views según el rol ───────────────────────────
+    // Configura visibilidad de views según el rol
     fun configurarVistas(rol: String, vistas: Map<View, List<String>>) {
         vistas.forEach { (view, rolesPermitidos) ->
             view.visibility = if (rolesPermitidos.contains(rol.lowercase())) {
@@ -32,7 +32,7 @@ object RolUtils {
         }
     }
 
-    // ── Verifica si se puede registrar más administradores ────────────────────
+    // Verifica si se puede registrar más administradores
     fun verificarLimiteAdmins(
         onPermitido: () -> Unit,
         onLimitAlcanzado: () -> Unit

@@ -13,7 +13,6 @@
     <string name="no_account">¿No tienes cuenta? Regístrate</string>
     <string name="have_account">¿Ya tienes cuenta? Inicia sesión</string>
     <string name="logout">Cerrar Sesión</string>
-    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
 
     <!-- Productos -->
     <string name="products">Productos</string>
@@ -28,10 +27,9 @@
     <string name="save">Guardar</string>
     <string name="cancel">Cancelar</string>
     <string name="update">Editar</string>
-    <string name="confirm_delete">¿Eliminar producto?</string>
-    <string name="delete_message">Esta acción no se puede deshacer.</string>
     <string name="no_products">No hay productos disponibles</string>
     <string name="search_products">Buscar productos...</string>
+    <string name="add_cart">Agregado</string>
 
     <!-- Dashboard -->
     <string name="dashboard">Panel Principal</string>
@@ -50,10 +48,12 @@
     <string name="stock_invalid">Ingresa un stock válido</string>
 
     <!-- Mensajes -->
-    <string name="loading">Cargando...</string>
-    <string name="success_login">Sesión iniciada correctamente</string>
+    <string name="loading">¡Cargando!</string>
+    <string name="success_login">¡Bienvenido!</string>
+    <string name="login_failure">Credenciales Incorrectas</string>
     <string name="success_register">Cuenta creada correctamente</string>
     <string name="success_product_created">Producto creado exitosamente</string>
+    <string name="error_product_created">Error al crear el producto</string>
     <string name="success_product_updated">Producto actualizado</string>
     <string name="success_product_deleted">Producto eliminado</string>
     <string name="error_generic">Ocurrió un error. Intenta de nuevo</string>

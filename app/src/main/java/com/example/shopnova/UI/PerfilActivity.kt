@@ -1,20 +1,27 @@
 package com.example.shopnova.UI
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.shopnova.MainActivity
 import com.example.shopnova.R
+import com.example.shopnova.Utils.DialogHelper
 import com.example.shopnova.Utils.FirebaseUtils
 import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.gone
+import com.example.shopnova.Utils.showSnackbarError
+import com.example.shopnova.Utils.showToast
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.databinding.ActivityPerfilBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -24,6 +31,7 @@ class PerfilActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPerfilBinding
     private val viewModel: AuthViewModel by viewModels()
+    private var uid: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,12 +46,14 @@ class PerfilActivity : AppCompatActivity() {
             insets
         }
 
+        uid = FirebaseUtils.getCurrentUserId()
+
         setupToolbar()
         setupObservers()
         cargarDatosUsuario()
 
         binding.btnEliminarUser.setOnClickListener {
-            Toast.makeText(this, "Eliminar usaurio", Toast.LENGTH_LONG).show()
+            mostrarDialogoEliminar()
         }
     }
 
@@ -55,7 +65,6 @@ class PerfilActivity : AppCompatActivity() {
     }
 
     private fun cargarDatosUsuario() {
-        val uid = FirebaseUtils.getCurrentUserId()
         if (uid.isNotEmpty()) {
             viewModel.loadUserData(uid)
         }
@@ -104,20 +113,44 @@ class PerfilActivity : AppCompatActivity() {
                 }
 
                 is UiState.Error -> {
-                    // Ocultar loading y mostrar contenido con datos de Auth
                     binding.progressBar.gone()
-                    binding.progressBar.visible()
+                    binding.cardUsuario.visible()
                     binding.btnEliminarUser.visible()
+                    binding.tvAvatar.visible()
 
-                    binding.tvNombre.text      = FirebaseUtils.getCurrentUserName()
-                    binding.tvCorreo.text      = FirebaseUtils.getCurrentUserEmail()
-                    binding.tvRol.text         = "👤 Usuario"
-                    binding.tvFecha.text       = "No disponible"
-                    binding.tvAvatar.text      = "U"
+                    binding.tvNombre.text       = FirebaseUtils.getCurrentUserName()
+                    binding.tvCorreo.text       = FirebaseUtils.getCurrentUserEmail()
+                    binding.tvRol.text          = "👤 Usuario"
+                    binding.tvFecha.text        = "No disponible"
+                    binding.tvAvatar.text       = "U"
                     binding.tvNombreHeader.text = FirebaseUtils.getCurrentUserName()
                 }
 
                 else -> {}
+            }
+
+            viewModel.deleteUserState.observe(this) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        binding.progressBar.visible()
+                        binding.btnEliminarUser.isEnabled = false
+                    }
+                    is UiState.Success -> {
+                        viewModel.resetDeleteUserState()
+                        irLogin()
+                    }
+                    is UiState.Error -> {
+                        binding.progressBar.gone()
+                        binding.btnEliminarUser.isEnabled = true
+                        binding.cardUsuario.visible()
+                        binding.root.showSnackbarError(state.message)
+                        viewModel.resetDeleteUserState()
+                    }
+                    else -> {
+                        binding.progressBar.gone()
+                        binding.btnEliminarUser.isEnabled = true
+                    }
+                }
             }
         }
     }
@@ -129,8 +162,25 @@ class PerfilActivity : AppCompatActivity() {
         return formato.format(Date(timestamp))
     }
 
-    private fun eliminarUsuario(){
+    private fun mostrarDialogoEliminar() {
+       // Llamamos a nuestra utilidad
+        DialogHelper.mostrarConfirmacionEliminarCuenta(
+            this,
+            {
+               eliminarUsuario()
+            }
+        )
+    }
 
+    private fun eliminarUsuario(){
+        if (uid.isEmpty()) return
+        viewModel.deleteUser(uid)
+    }
+
+    private fun irLogin() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
 }

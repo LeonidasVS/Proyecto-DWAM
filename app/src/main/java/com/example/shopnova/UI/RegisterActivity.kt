@@ -2,7 +2,7 @@ package com.example.shopnova.UI
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
+
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -10,12 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopnova.R
-import com.example.shopnova.Utils.RolUtils
 import com.example.shopnova.Utils.UiState
 import com.example.shopnova.Utils.ValidationUtils
 import com.example.shopnova.Utils.gone
 import com.example.shopnova.Utils.showSnackbarError
-import com.example.shopnova.Utils.showToast
 import com.example.shopnova.Utils.visible
 import com.example.shopnova.Viewmodel.AuthViewModel
 import com.example.shopnova.databinding.ActivityRegisterBinding
@@ -25,11 +23,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private val viewModel: AuthViewModel by viewModels()
-
-    private val roles = listOf(
-        "Cliente",
-        "Administrador"
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -45,7 +38,6 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         setupObservers()
-        setupRolesDropdown()
 
         binding.btnRegister.setOnClickListener {
             // Solo procesa si los campos son validos
@@ -60,47 +52,15 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     // Procesa el registro segun el rol
-    private fun procesarRegistro() {
-        val nombre   = binding.etName.text.toString().trim()
-        val email    = binding.etEmail.text.toString().trim()
-        val password = binding.etPassword.text.toString()
-        val role     = binding.actvRole.text.toString().trim().lowercase()
+    private fun procesarRegistro(){
+            val nombre   = binding.etName.text.toString().trim()
+            val email    = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString()
 
-        if (role == RolUtils.ROL_ADMIN) {
-            // Deshabilitar botón mientras verifica
-            binding.progressBar.visible()
-            binding.btnRegister.isEnabled = false
-
-            RolUtils.verificarLimiteAdmins(
-                onPermitido = {
-                    // Hay espacio, proceder con el registro
-                    viewModel.register(nombre, email, role, password)
-                },
-                onLimitAlcanzado = {
-                    // Ya hay 3 admins
-                    binding.progressBar.gone()
-                    binding.btnRegister.isEnabled = true
-                    binding.tiltRole.error =
-                        "Límite alcanzado: solo se permiten ${RolUtils.MAX_ADMINS} administradores"
-                }
-            )
-        } else {
-            // Es cliente, registrar directo
-            viewModel.register(nombre, email, role, password)
-        }
+            // Siempre será cliente automáticamente
+            viewModel.register(nombre, email, password)
     }
 
-    private fun setupRolesDropdown() {
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            roles
-        )
-        binding.actvRole.setAdapter(adapter)
-        binding.actvRole.setOnClickListener {
-            binding.actvRole.showDropDown()
-        }
-    }
 
     private fun setupObservers() {
         viewModel.registerState.observe(this) { state ->
@@ -141,14 +101,12 @@ class RegisterActivity : AppCompatActivity() {
         val email           = binding.etEmail.text.toString().trim()
         val password        = binding.etPassword.text.toString()
         val confirmPassword = binding.etConfirmPassword.text.toString()
-        val role            = binding.actvRole.text.toString().trim()
 
         // Limpiar errores previos
         binding.tilName.error            = null
         binding.tilEmail.error           = null
         binding.tilPassword.error        = null
         binding.tilConfirmPassword.error = null
-        binding.tiltRole.error           = null
 
         if (!ValidationUtils.isNotEmpty(name)) {
             binding.tilName.error = getString(R.string.field_required)
@@ -171,11 +129,6 @@ class RegisterActivity : AppCompatActivity() {
         }
         if (password != confirmPassword) {
             binding.tilConfirmPassword.error = getString(R.string.passwords_not_match)
-            isValid = false
-        }
-        // Validar que se haya seleccionado un rol
-        if (!ValidationUtils.isNotEmpty(role)) {
-            binding.tiltRole.error = getString(R.string.field_required)
             isValid = false
         }
 

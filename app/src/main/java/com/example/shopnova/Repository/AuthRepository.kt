@@ -33,34 +33,49 @@ class AuthRepository {
     suspend fun register(
         name: String,
         email: String,
-        role: String,
         password: String
     ): UiState<FirebaseUser> {
-        return try {
-            // 1. Crear en Firebase Auth
-            val result       = auth.createUserWithEmailAndPassword(email, password).await()
-            val firebaseUser = result.user
-            if (firebaseUser == null) return UiState.Error("Error al crear usuario")
 
-            // 2. Actualizar displayName en Auth
+        return try {
+
+            // Crear usuario en Firebase Auth
+            val result = auth
+                .createUserWithEmailAndPassword(email, password)
+                .await()
+
+            val firebaseUser = result.user
+                ?: return UiState.Error("Error al crear usuario")
+
+            // Actualizar nombre
             val profileUpdates = UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
                 .build()
+
             firebaseUser.updateProfile(profileUpdates).await()
 
-            // 3. Guardar en Realtime Database → /users/{uid}
+            // Guardar en Realtime Database
             val userData = mapOf(
-                "uid"       to firebaseUser.uid,
-                "name"      to name,
-                "email"     to email,
-                "role"      to role,
+                "uid" to firebaseUser.uid,
+                "name" to name,
+                "email" to email,
+
+                // Siempre cliente automáticamente
+                "role" to "cliente",
+
                 "createdAt" to System.currentTimeMillis()
             )
-            usersRef.child(firebaseUser.uid).setValue(userData).await()
+
+            usersRef.child(firebaseUser.uid)
+                .setValue(userData)
+                .await()
 
             UiState.Success(firebaseUser)
+
         } catch (e: Exception) {
-            UiState.Error(e.message ?: "Error al registrarse")
+
+            UiState.Error(
+                e.message ?: "Error al registrarse"
+            )
         }
     }
 
